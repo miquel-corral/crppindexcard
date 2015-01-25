@@ -1,0 +1,69 @@
+S001	Q001	S	Country	Name
+S001	Q002	S	Capital	Name
+S001	Q003	S	Region	Name
+S001	Q004	S	County	Name
+S001	Q005	S	Time zone	
+S001	Q006	S	Coordinates	Geodetic coordinates
+S001	Q007	S	Altitude	in m
+S001	Q008	S	Climate type	
+S001	Q009	L	Other rellevant information	Temperature range, rainfall average, months with characteristic phenomena within the year (temperature, rainfall, draught, monsoon..)
+S001	Q010	L	Geographical characteristics	coastal area, on or near mountain, mainland, near or on a river, near an earthquake fault line, etc.
+S001	Q011	S	Urban area	Urban area in km2
+S001	Q012	S	Metropolitan area	Metropolitan area in km2
+S001	Q013	S	Subdivisions/districts	Numbers, if any
+S001	Q014	S	Representative picture of your city	Printable in A3 if possible with information about copyright
+S001	Q015	S	Representative plan or map of your city	Upload file, ortofoto, aerial view..
+S002	Q016	S	Urban population - permanent	
+S002	Q017	S	Urban population - floating	Detail tourism, commuters, other rellevant information
+S002	Q018	S	Metropolitan population - permanent	
+S002	Q019	S	Metropolitan population - floating	Detail tourism, commuters, other rellevant information
+S002	Q020	S	Average population growth	Average within last 5-10 years
+S002	Q021	S	Projection of populatio growth	Estimation in the next 5-10 years
+S002	Q022	S	Mortality rates	Specifying children
+S002	Q023	S	Life Expectancy	
+S002	Q024	S	Average age	Years
+S002	Q025	S	Social distribution	Average of population with cultural, religious or other differential characteristics
+S002	Q026	S	Oficial  language(s)	Official language(s) (%)
+S002	Q027	S	Other language(s) spoken	Other main languages spoken (%)
+S002	Q028	S	Population density	Inhabitants/Km2
+S003	Q029	S	GDP	
+S003	Q030	S	GDP per capita	
+S003	Q031	S	Economic sectors	Industry, agriculture, services, others...(%)
+S003	Q032	S	Population average income	Per inhabitant and per family
+S003	Q033	S	Unemployment rates	%, specifying differences per gender, ages
+S003	Q034	L	City budget	Total (USD), direct income (% of total), extern contributions (country, reginal government or others, % of total)
+S003	Q035	S	Buget adressed to resilience	DRR, Climate Change, Sustainable Development, Contingency allocation.. (% of total)
+S003	Q036	S	Alternative DRR financial mechanisms	if any (insurance, micro-insurance,contingency credits…)
+S004	Q037	S	Political system	Universal election, restricted vote, others..
+S004	Q038	S	Political cycle	in months
+S004	Q039	S	Last election	date
+S004	Q040	S	Major centre of political decisions at regional or national level	yes/no
+S004	Q041	L	Department in charge of Resilience, DRR/M, Environment, Sustainability and/or Climate Change	(DRR, Climat Change, Sustainability, Environment..) please specify and describe departments involved and responsibilities
+S004	Q042	S	Building codes and regulations	yes/no
+S004	Q043	S	Level of compliance of building codes	% of compliant buildings
+S004	Q044	L	Other rellevant policies	Land use, DRR, urban growth master plans, environment protection, emergencies, any other..
+S004	Q045	L	Other rellevant information	Disaster response systems, early warning systems, climate change strategies, any other..
+S005	Q046	L	Building tipology	Describe building tipologies or classification in terms of structural behaviour
+S005	Q047	L	Public transportation systems	list of available public transport (metro, tram, bus, others, specify % of use)
+S005	Q048	L	Sources of energy within the city	Electricity plants, nuclear plants, any other. Specify existance of distributed networks and % of energy locally produced
+S005	Q049	S	Hospitals, clinics	numbers in urban area
+S005	Q050	S	Medical/assistance centres	numbers in urban area
+S005	Q051	S	Prisons, detention centres	numbers in urban area
+S005	Q052	S	Sport facilities	numbers in urban area
+S005	Q053	S	Schools	numbers in urban area
+S005	Q054	S	Universities	numbers in urban area
+S005	Q055	S	Airport(s)	if any
+S005	Q056	S	Railway(s)	if any
+S005	Q057	S	Harbour(s)/Port(s)	if any
+S005	Q058	S	Industrial areas	if any
+S005	Q059	L	Zones with potential high concentration of people	Potentially crowded zones because of tourism, cultural, religious matters or others, if any
+S005	Q060	S	Green infrastructure	Park, forest, etc. (% of surface or Km2)
+S005	Q061	S	Blue infrastructure	Lake, river, pond, etc. (% of surface or Km2)
+S006	Q062	L	Recurrent Hazards	Recurrent hazards
+S006	Q063	L	Most harmful hazards	Please describe in terms of casualties, affected people, economic lossess and disruption of services
+S006	Q064	L	Last disasters/crises	With main impacts that occurred since 2000
+S006	Q065	L	Actions in resilience	Actions in DRR, Sustainable development, Climate Change since 2000 (assessment with international organizations, self-designed plans/actions, construction of protective infrastructures such as levees, sea walls, etc.; early warning systems, policies..)
+S007	Q066	L	Partnerships to develop resilience	Partnerships with international agencies or actors, country or regional level governments, private sector, civil society or public-private partnerships (existing or in process of creation)
+S008	Q067	S	Institutional website	URL if available
+S008	Q068	L	To share with our partners and on our publications, please provide one interesting fact or specificity about your city.	in few words…
+S009	Q069	L	Other rellevant information	Any other rellevant information about resilience in your city you consider rellevant

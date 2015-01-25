@@ -1,0 +1,25 @@
+{% extends "crppindexcard/base_site.html" %}
+{% load i18n admin_static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "crppindexcard/css/login.css" %}" />{% endblock %}
+
+{% block bodyclass %}{{ block.super }} login{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+   <div id="content" class="colM">
+        <h1>Logged out</h1>
+        <p>Thanks for spending some quality time with the Web site today.</p>
+        <p><a href="/index/">Log in again</a></p>
+        <br class="clear">
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+{% endblock %}
