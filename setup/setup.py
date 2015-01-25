@@ -50,8 +50,8 @@ def load_sections_file():
     """
     print("load_sections_file. Start..")
     file_path = settings.BASE_DIR + "/files/sections.csv"
-    data_reader = csv.reader(open(file_path), delimiter=",", quotechar='"')
     for index_card in IndexCard.objects.all():
+        data_reader = csv.reader(open(file_path), delimiter=",", quotechar='"')
         for row in data_reader:
             # read data from line
             code = row[0].strip()
@@ -76,32 +76,32 @@ def load_questions_file():
     print("load_questions_file. Start..")
     file_path = settings.BASE_DIR + "/files/questions.tsv"
     data_reader = csv.reader(open(file_path), dialect='excel-tab')
-    for index_card in IndexCard.objects.all():
-        for row in data_reader:
-            # read data from line
-            section_code = row[0].strip()
-            code = row[1].strip()
-            type = row[2].strip()
-            statement = row[3].strip()
-            remarks = row[4].strip()
-            # search section
-            print("Section code: " + section_code)
-            section = index_card.section_set.get(code=section_code)
-            # new question
-            if (type == 'L'):
-                question = QuestionLong()
-            else:
-                question = QuestionShort()
-            question.name = index_card.code + '-' + section_code + '-' + code
-            question.code = code
-            question.statement = statement
-            question.comments = remarks
-            question.section = section
-            try:
-                question.save()
-            except:
-                print("Saving questions: " + question.name)
-                print("Unexpected error:", sys.exc_info())
+    for row in data_reader:
+        # read data from line
+        section_code = row[0].strip()
+        code = row[1].strip()
+        type = row[2].strip()
+        statement = row[3].strip()
+        remarks = row[4].strip()
+        # add question to each proper section for all index_cards
+        for index_card in IndexCard.objects.all():
+            for section in index_card.section_set.all():
+                if section.code == section_code:
+                    # new question
+                    if (type == 'L'):
+                        question = QuestionLong()
+                    else:
+                        question = QuestionShort()
+                    question.code = code
+                    question.statement = statement
+                    question.comments = remarks
+                    question.section = section
+                    question.index_card = index_card
+                    try:
+                        question.save()
+                    except:
+                        print("Saving questions: " + question.name)
+                        print("Unexpected error:", sys.exc_info())
     print("load_questions_file. End....")
 
 if __name__ == "__main__":

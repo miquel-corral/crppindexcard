@@ -29,11 +29,13 @@ def my_login(request):
                     login_response = login(request, user)
                     try:
                         index_card = IndexCard.objects.get(username=request.user)
+                        sections = index_card.section_set
                     except:
                         index_card = None
                     template = loader.get_template('crppindexcard/index.html')
                     context = RequestContext(request, {
                         'index_card': index_card,
+                        'sections': sections,
                         'user': user,
                     })
                     return HttpResponse(template.render(context))
@@ -57,9 +59,6 @@ def my_login(request):
             }
         return TemplateResponse(request, 'crppindexcard/login.html', context)
 
-
-
-
 def my_logout(request):
     logout(request)
     template = loader.get_template('crppindexcard/logout.html')
@@ -76,12 +75,11 @@ def index(request):
     :param request:
     :return:
     """
-
-    #assessments = Assessment.objects.all()
-    #ra_sections = RiskAssessmentSection.objects.all()
-    #ca_sections = CapacityAssessmentSection.objects.all()
+#    index_card = IndexCard.objects.get(user = request.user.username)
+#    sections = index_card.section_set
     template = loader.get_template('crppindexcard/index.html')
     context = RequestContext(request, {
-        'city': 'test_city',
+#        'index_card': index_card,
+#        'sections': sections
     })
     return HttpResponse(template.render(context))
