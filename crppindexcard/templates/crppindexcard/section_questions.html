@@ -1,0 +1,131 @@
+{% extends "crppindexcard/base_site.html" %}
+{% load i18n admin_static %}
+{% load set_context_var %}
+{% load get_context_var %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "crppindexcard/css/forms.css" %}"/>{% endblock %}
+
+{% block coltype %}colM{% endblock %}
+
+{% block bodyclass %}{{ assessment.name }} change-form{% endblock %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+
+<div class="breadcrumbs">
+    <a href="{% url 'index' %}">{{ index_card.city }}</a> &rsaquo;
+    <a href="{% url 'index' %}">{{ section.name }} </a>
+</div>
+{% endblock %}
+{% endif %}
+
+
+{% block content %}
+<div id="content-main">
+
+
+<div class="module">
+    <table style="width:100%">
+        <caption>
+            <div class="section">City Index Card for:  {{ index_card.city }} &rsaquo; Section: {{ section.name }}</div>
+            <div style="float:right;padding-right:18px;"></div>
+        </caption>
+    </table>
+</div>
+
+
+<form name="crppindexcardform" action="" method="post" id="{{ indexcard.username }}_form" onsubmit="enableDisabledSelects();return true;">{% csrf_token %}{% block form_top %}{% endblock %}
+<div>
+{{ formset.management_form }}
+<!-- to render errors div-->
+        {% if formset.errors %}
+        <div class="">
+        <p class="errornote">
+            <!-- num_errors calculat en view -->
+            {% if num_errors|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+
+            <!-- prints model errors, right style -->
+            {% for dict in formset.errors %}
+                {% for key, value in dict.items %}
+                    {% if key == '__all__' %}
+                    <li>{{ value }}</li>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+
+        </p>
+
+
+        </div>
+        {% endif %}
+<fieldset class="module aligned">
+<!--  to render formsetv -->
+    {% for form in formset %}
+
+
+
+        <div class="form-row {% if not field.is_readonly and field.errors %} errors{% endif %} field-{{ field.name }}">
+        {% for field in form %}
+
+            {% if field.is_hidden and field.name != 'hazard'%}
+                <div class="">
+                    {{ field }}
+                </div>
+            {% else %}
+
+
+            <!-- <div class="form-row {% if not field.is_readonly and field.errors %} errors{% endif %} field-{{ field.name }}"> -->
+                {% if field.errors|length_is:'1' %}{{ field.errors }}{% endif %}
+                <div{% if not line.fields|length_is:'1' %} class="field-box{% if field.field.name %} field-{{ field.name }}{% endif %}{% if not field.is_readonly and field.errors %} errors{% endif %}"{% elif field.is_checkbox %} class="checkbox-row"{% endif %}>
+
+                    <!-- Treatement for Statement field -->
+                    {% if field.name == 'statement' %}
+                        <span class="required"><label>{{ field.value }}</label></span>
+                    {% endif %}
+                    <!-- Capture type of answer -->
+                    {% if field.name == 'answer_type' %}
+                        {% set_context_var "answer_type" field.value as answer_type %}
+                        {{ field.as_hidden }}
+                    {% endif %}
+                    <!-- Treatement for Answer field -->
+                    {% if field.name == 'answer_short' %}
+                        {% get_context_var "answer_type" as answer_type %}
+                        {% if answer_type == 'L' %}
+                            {{ field.as_hidden }}
+                        {% else %}
+                            {{ field }}
+                        {% endif%}
+                    {% endif %}
+                    {% if field.name == 'answer_long' %}
+                        {% get_context_var "answer_type" as answer_type %}
+                        {% if answer_type == 'S' %}
+                            {{ field.as_hidden }}
+                        {% else %}
+                            {{ field }}
+                        {% endif%}
+                    {% endif %}
+                     <!-- Treatement for Comments field -->
+                    {% if field.name == 'comments' %}
+                        <span class="helptext"><label>{{ field.value }}</label></span>
+                    {% endif %}
+
+
+                </div>
+            <!-- </div> -->
+            {% endif %}
+        {% endfor %}
+        </div>
+    {% endfor %}
+
+</fieldset>
+</div> <!-- form div -->
+
+<div class="submit-row">
+    <input class="default" type="submit" name="_save" value="Save"></input>
+</div> <!-- submit row div -->
+
+</div> <!-- content.main -->
+{% endblock %}
+<script>
+
+</script>

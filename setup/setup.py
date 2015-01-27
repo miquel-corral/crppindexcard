@@ -15,7 +15,7 @@ import django
 django.setup()
 
 from django.contrib.auth.models import User
-from crppindexcard.models import IndexCard, Section, QuestionShort, QuestionLong
+from crppindexcard.models import IndexCard, Section, Question
 
 def load_cities_file():
     """
@@ -88,10 +88,8 @@ def load_questions_file():
             for section in index_card.section_set.all():
                 if section.code == section_code:
                     # new question
-                    if (type == 'L'):
-                        question = QuestionLong()
-                    else:
-                        question = QuestionShort()
+                    question = Question()
+                    question.answer_type = type
                     question.code = code
                     question.statement = statement
                     question.comments = remarks
@@ -100,7 +98,7 @@ def load_questions_file():
                     try:
                         question.save()
                     except:
-                        print("Saving questions: " + question.name)
+                        print("Saving questions: " + question.code)
                         print("Unexpected error:", sys.exc_info())
     print("load_questions_file. End....")
 

@@ -17,15 +17,12 @@
         <table>
         <caption>
             <div class="section">City Index Card for:  {{ index_card.city }}</div>
-            <div style="float:right;padding-right:18px;"> {{ index_card.section_set.count }} - {{ sections.count }}</div>
+            <div style="float:right;padding-right:18px;"></div>
         </caption>
         {% for section in index_card.section_set.all %}
             <tr class="section-{{ section.object_name|lower }}">
                 <th scope="row">
-                    {{ section.name }}
-                    {% comment %}
-                    <a href="{% url 'section_questions' index_card_id=index_card.id section_id=section.id %}">{{ section.name }}</a>
-                    {% endcomment %}
+                    <a href="{% url 'questions' index_card_id=index_card.id section_id=section.id %}">{{ section.name }}</a>
                 </th>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>

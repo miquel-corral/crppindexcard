@@ -11,6 +11,8 @@
 
 .form-row img, .form-row input {
     vertical-align: middle;
+    /* miquel */
+    width:100%;
 }
 
 form .form-row p {
@@ -68,7 +70,9 @@ form ul.inline li {
     display: block;
     padding: 3px 10px 0 0;
     float: left;
-    width: 8em;
+    /* miquel */
+    /* width: 8em; */
+    width: 100%;
     word-wrap: break-word;
 }
 
@@ -114,6 +118,8 @@ form .aligned p.help {
 fieldset .field-box {
     float: left;
     margin-right: 20px;
+    /* miquel */
+    width: 25%;
 }
 
 /* WIDE FIELDSETS */

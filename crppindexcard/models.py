@@ -33,29 +33,18 @@ class Section(Common):
     index_card = django.db.models.ForeignKey(IndexCard)
 
 
-class QuestionBase(Common):
+class Question(Common):
     """
     Abstract class with basic elements of a question
     """
     statement = django.db.models.CharField(max_length=250, null=True, blank=True)
-    answer = django.db.models.CharField(max_length=250, null=True, blank=True)
+    answer_type = django.db.models.CharField(max_length=1, null=True, blank=True)
+    answer_short = django.db.models.CharField(max_length=250, null=True, blank=True)
+    answer_long = django.db.models.TextField(null=True, blank=True)
     section = django.db.models.ForeignKey(Section)
-
-    class Meta:
-        abstract = True
+    comments = django.db.models.CharField(max_length=400, null=True, blank=True)
 
 
-class QuestionShort(QuestionBase):
-    """
-    Represents a single question in a section with short answer
-    """
-    comments = django.db.models.CharField(max_length=250, null=True, blank=True)
 
-
-class QuestionLong(QuestionBase):
-    """
-    Represents a single question in a section with long answer
-    """
-    comments = django.db.models.TextField(max_length=400, null=True, blank=True)
 
 
