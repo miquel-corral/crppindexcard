@@ -20,9 +20,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'l)a=!$jdii-b0c4th7cs^6m5ld(l_wg_$u3#x#+38(ct^&_&60'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -56,6 +56,7 @@ WSGI_APPLICATION = 'crppindexcard.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
+import dj_database_url
 
 DATABASES = {
     'default': {
