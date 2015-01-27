@@ -53,7 +53,6 @@ ROOT_URLCONF = 'crppindexcard.urls'
 
 WSGI_APPLICATION = 'crppindexcard.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 import dj_database_url
@@ -94,7 +93,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, '../crppindexcard/static'),
 )
-
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
