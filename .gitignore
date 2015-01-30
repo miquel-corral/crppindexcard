@@ -1,6 +1,9 @@
 venv
 staticfiles
 
+# exclude .idea directory
+/.db_utils
+
 # ignore .dump files
 *.dump
 

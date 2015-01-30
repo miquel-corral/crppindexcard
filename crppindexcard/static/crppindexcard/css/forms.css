@@ -122,6 +122,30 @@ fieldset .field-box {
     width: 25%;
 }
 
+/* miquel defining more field-box styles */
+
+fieldset .field-box-10 {
+    float: left;
+    margin-right: 20px;
+    width: 10%;
+}
+fieldset .field-box-50 {
+    float: left;
+    margin-right: 20px;
+    width: 50%;
+}
+fieldset .field-box-30 {
+    float: left;
+    margin-right: 20px;
+    width: 30%;
+}
+fieldset .field-box-33 {
+    float: left;
+    margin-right: 20px;
+    width: 33%;
+}
+
+
 /* WIDE FIELDSETS */
 
 .wide label {

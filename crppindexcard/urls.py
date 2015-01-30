@@ -14,6 +14,15 @@ urlpatterns = patterns('',
     # url to page with questions from a specified section
     url(r'^questions/(?P<index_card_id>\d+)/(?P<section_id>\d+)/$', 'crppindexcard.views.section_questions', name='questions'),
 
+    # url to page with questions from a specified hazard
+    url(r'^hazard_questions/(?P<index_card_id>\d+)/(?P<hazard_id>\d+)/$', 'crppindexcard.views.hazard_questions', name='hazard_questions'),
+
+    # url to page with list of services of an city
+    url(r'^services_list/(?P<index_card_id>\d+)/(?P<hazard_id>\d+)/$', 'crppindexcard.views.services_list', name='services_list'),
+
+    # url to page with questions from a services disruption hazard
+    url(r'^service_questions/(?P<index_card_id>\d+)/(?P<hazard_id>\d+)/(?P<index_card_service_id>\d+)/$', 'crppindexcard.views.service_questions', name='service_questions'),
+
     # url to admin pages
     url(r'^admin/', include(admin.site.urls)),
 )

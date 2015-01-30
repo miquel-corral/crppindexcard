@@ -1,0 +1,137 @@
+{% extends "crppindexcard/base_site.html" %}
+{% load i18n admin_static %}
+{% load set_context_var %}
+{% load get_context_var %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "crppindexcard/css/forms.css" %}"/>{% endblock %}
+
+{% block coltype %}colM{% endblock %}
+
+{% block bodyclass %}{{ assessment.name }} change-form{% endblock %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+
+<div class="breadcrumbs">
+    <a href="{% url 'index' %}">{{ index_card.city }}</a> &rsaquo;
+    <a href="{% url 'index' %}">{{ hazard.name }} </a> &rsaquo;
+    <a href="{% url 'services_list' index_card_id=index_card.id% hazard_id=hazard.id service_id=service.id}">{{ service.name }} </a> &rsaquo;
+</div>
+{% endblock %}
+{% endif %}
+
+
+{% block content %}
+<div id="content-main">
+
+
+<div class="module">
+    <table style="width:100%">
+        <caption>
+            <div class="section">City Index Card for:  {{ index_card.city }} &rsaquo; Hazard: {{ hazard.name }} &rsaquo; Service: {{ service.name }}</div>
+            <div style="float:right;padding-right:18px;"></div>
+        </caption>
+    </table>
+</div>
+
+
+<form name="crppindexcardform" action="" method="post" id="{{ indexcard.username }}_form" onsubmit="enableDisabledSelects();return true;">{% csrf_token %}{% block form_top %}{% endblock %}
+<div>
+{{ formset.management_form }}
+<!-- to render errors div-->
+        {% if formset.errors %}
+        <div class="">
+        <p class="errornote">
+            <!-- num_errors calculat en view -->
+            {% if num_errors|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+
+            <!-- prints model errors, right style -->
+            {% for dict in formset.errors %}
+                {% for key, value in dict.items %}
+                    {% if key == '__all__' %}
+                    <li>{{ value }}</li>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+
+        </p>
+
+
+        </div>
+        {% endif %}
+<fieldset class="module aligned">
+<!--  to render formsetv -->
+    {% for form in formset %}
+
+        <!-- main framework of the form -->
+        <div class="form-row {% if not field.is_readonly and field.errors %} errors{% endif %} field-{{ field.name }}">
+        <!--  table structure -->
+         <table>
+            <tr>
+                <td width="10%" align="center"><span class="required"><label>&nbsp;</label></span></td>
+                <td align="center" colspan="3"><span class="required"><label>{{ constants.get_period_of_disruption_label }}</label></span></td>
+                <td width="15%"><div style="padding-left:5px;padding-right:5px;"><span class="required"><label>{{ constants.get_population_served_label }}</label></span></div></td>
+            </tr>
+            <tr>
+                <td width="10%" align="center"><span class="required"><label>{{ service.name }}</label></span></td>
+                <td width="15%" align="center"><span class="required"><label>{{ constants.get_term_8h_label }}</label></span></td>
+                <td width="15%" align="center"><span class="required"><label>{{ constants.get_term_24h_label }}</label></span></td>
+                <td width="15%" align="center"><span class="required"><label>{{ constants.get_term_48h_label }}</label></span></td>
+                <td><div style="padding-left:5px;padding-right:5px;">{{ form.population_served }}</div></td>
+            </tr>
+            <tr>
+                <td width="10%"><span class="required"><label>{{ form.component_1_label.value }}</label></span></td>
+                <td width="15%">{{form.component_1_value_1T}}</td>
+                <td width="15%">{{form.component_1_value_2T}}</td>
+                <td width="15%">{{form.component_1_value_3T}}</td>
+                <td><div style="padding-left:5px;"><span class="helptext"><label>{{ constants.get_population_affected_20_label }}</label></span></div></td>
+            </tr>
+            <tr>
+                <td width="10%"><span class="required"><label>{{ form.component_2_label.value }}</label></span></td>
+                <td width="15%">{{form.component_2_value_1T}}</td>
+                <td width="15%">{{form.component_2_value_2T}}</td>
+                <td width="15%">{{form.component_2_value_3T}}</td>
+                <td><div style="padding-left:5px;"><span class="helptext"><label>{{ constants.get_population_affected_20_label }}</label></span></div></td>
+            </tr>
+            <tr>
+                <td width="10%"><span class="required"><label>{{ constants.get_mov_label }}</label></span></td>
+                <td colspan="3">{{form.mov}}</td>
+                <td width="15%"><div style="padding-left:5px;"><span class="helptext"><label>{{ constants.get_mov_comments_hazard_label }}</label></span></div></td>
+            </tr>
+            <tr>
+                <td width="10%"><span class="required"><label>{{ constants.get_additional_info_label }}</label></span></td>
+                <td colspan="3">{{form.additional_information}}</td>
+                <td><div style="padding-left:5px;"><span class="helptext"><label>{{ constants.get_additional_info_hazards_label }}</label></span></div></td>
+            </tr>
+
+         </table>
+
+        {% for field in form %}
+                {% if field.errors|length_is:'1' %}{{ field.errors }}{% endif %}
+
+
+
+
+{% comment %}
+                <div{% if not line.fields|length_is:'1' %} class="field-box{% if field.field.name %} field-{{ field.name }}{% endif %}{% if not field.is_readonly and field.errors %} errors{% endif %}"{% elif field.is_checkbox %} class="checkbox-row"{% endif %}>
+                                {{ field }}
+                </div>
+
+{% endcomment %}
+
+        {% endfor %}
+        </div>
+    {% endfor %}
+
+</fieldset>
+</div> <!-- form div -->
+
+<div class="submit-row">
+    <input class="default" type="submit" name="_save" value="Save"></input>
+</div> <!-- submit row div -->
+
+</div> <!-- content.main -->
+{% endblock %}
+<script>
+
+</script>
