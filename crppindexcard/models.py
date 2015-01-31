@@ -42,7 +42,7 @@ class HazardAssessmentMatrix(django.db.models.Model):
     """
     events_past_or_expected = django.db.models.CharField(max_length=100, null=True, blank=True)
     it_no_losses = django.db.models.CharField(max_length=100, null=True, blank=True)
-    it_disruption_function = django.db.models.CharField(max_length=100, null=False, blank=True)
+    it_disruption_function = django.db.models.CharField(max_length=100, null=True, blank=True)
     it_material_losses = django.db.models.CharField(max_length=100, null=True, blank=True)
     it_casualties = django.db.models.CharField(max_length=100, null=True, blank=True)
     st_no_losses = django.db.models.CharField(max_length=100, null=True, blank=True)
@@ -192,3 +192,55 @@ class ServiceT5Question(django.db.models.Model):
     mov = django.db.models.TextField(null=True, blank=True)
     additional_information = django.db.models.TextField(null=True, blank=True)
     index_card_service = django.db.models.ForeignKey(IndexCardService)
+
+
+class CompetenceQuestion(django.db.models.Model):
+    """
+    Represents a competence question for a physical component of the city
+    """
+    label_text = django.db.models.CharField(max_length=100, null=True, blank=True)
+    owner = django.db.models.TextField(null=True, blank=True)
+    operator = django.db.models.TextField(null=True, blank=True)
+    competences = django.db.models.TextField(null=True, blank=True)
+    index_card = django.db.models.ForeignKey(IndexCard)
+
+
+class HardInfrastructure(django.db.models.Model):
+    """
+    Represents a hard infrastructure of the city
+    """
+    name = django.db.models.CharField(max_length=100, null=False, blank=False)
+
+
+class IndexCardHardInfrastructure(django.db.models.Model):
+    """
+    Represents a hard infrastructure element competences question for an indexcard
+    """
+    hard_infrastructure = django.db.models.ForeignKey(HardInfrastructure)
+    index_card = django.db.models.ForeignKey(IndexCard)
+    competence_question = django.db.models.ForeignKey(CompetenceQuestion)
+
+class BuiltEnvironmentComponent(django.db.models.Model):
+    """
+    Represents a component of the built environment of the city
+    """
+    name = django.db.models.CharField(max_length=100, null=False, blank=False)
+
+class IndexCardBuiltEnvironmentComponent(django.db.models.Model):
+    """
+    Represents competence question for an indexcard built environment component
+    """
+    index_card = django.db.models.ForeignKey(IndexCard)
+    competence_question = django.db.models.ForeignKey(CompetenceQuestion)
+
+
+class EnvironmentComponent(django.db.models.Model):
+    """
+    Represents an environment component
+    """
+    name = django.db.models.CharField(max_length=100, null=False, blank=False)
+
+class IndexCardEnvironmentComponent(django.db.models.Model):
+    """
+    Represents a competence question for an indexcard environment component
+    """

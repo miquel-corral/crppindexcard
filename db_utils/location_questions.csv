@@ -1,0 +1,17 @@
+id;code;statement;answer_type;answer_short;answer_long;section_id;comments
+9;Q001;Country;S;;;73;Name
+20;Q002;Capital;S;;;73;Name
+31;Q003;Region;S;;;73;Name
+42;Q004;County;S;;;73;Name
+53;Q005;Time zone;S;;;73;
+64;Q006;Coordinates;S;;;73;Geodetic coordinates
+75;Q007;Altitude;S;;;73;Main range of altitudes. Ex: from sea level to ..
+86;Q008;Climate type;S;;;73;
+97;Q009;Other relevant information;L;;;73;Temperature range, rainfall average, months with characteristic phenomena within the year (temperature, rainfall, draught, monsoon..)
+108;Q010;Geographical characteristics;L;;;73;coastal area, on or near mountain, mainland, near or on a river, near an earthquake fault line, etc.
+119;Q011;Urban area;S;;;73;Urban area in km2. Meaning Urban Area the area within the boundaries where your local government has competencies to act. Ex: municipality area in km2
+130;Q012;Metropolitan area;S;;;73;Area of influence in terms of economic and labor market in km2
+141;Q013;Subdivisions/districts;S;;;73;Rellevant administrative subdivisions ex: districts, neighbourhoods, ...
+152;Q014;Representative picture of your city;L;;;73;Please provide link/s to download at least a representative picture of your city for free distribution. Printable in A3 if possible with info about the copyright if necessary. Pictures can not have reserved rights as they are intented for free distribution.
+163;Q015;Representative plan or map of your city;L;;;73;Please provide link/s to download masterplan or map of your city including the boundaries of your local government
+174;Q016;Representative view of your city;L;;;73;Please provide link/s to download orthophoto and/or aerial view from your city

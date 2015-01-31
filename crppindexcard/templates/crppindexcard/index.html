@@ -31,6 +31,7 @@
          {% endfor %}
         </table>
      </div>
+{%comment%}
     <div class="module">
         <table>
         <caption>
@@ -53,7 +54,23 @@
          {% endfor %}
         </table>
      </div>
-
+     <div>
+        <table>
+        <caption>
+            <div class="section">Competences for:  {{ index_card.city }}</div>
+            <div style="float:right;padding-right:18px;"></div>
+        </caption>
+            <tr class="section-{{ hazard.object_name|lower }}">
+                <th scope="row">
+                    <a href="{% url 'infrastructure_questions' index_card_id=index_card.id %}">Infrastructures (services supply)</a>
+                </th>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+     </div>
+{%endcomment%}
 {% else %}
     <p>{% trans "City Index Card not set for " %}{{ user.username }}</p>
 {% endif %}

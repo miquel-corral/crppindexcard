@@ -38,7 +38,10 @@ GAS_TRANSPORT_NETWORK = 'Part of the network that carries the supply without rea
 GAS_DISTRIBUTION_NETWORK = 'Part of the network that connects the service to the final user, generally at low pressure'
 PLEASE_SPECIFY = 'Please specify'
 
-
+OWNER_RESPONSIBLE_LABEL = 'Owner/Responsible'
+OPERATOR_LABEL = 'Operator'
+COMPETENCES_LABEL = 'Competences of the local gov.'
+COMPETENCES_LABEL_2 = 'Define the level of competency of your local government: all/decision making/surveillance/operation/informed/none. Relationship with other level government entities'
 
 def get_recurrence_label():
     return RECURRENCE_LABEL
@@ -135,6 +138,17 @@ def gas_distribution_network_label():
 def get_please_specify_label():
     return PLEASE_SPECIFY
 
+def get_owner_responsible_label():
+    return OWNER_RESPONSIBLE_LABEL
+
+def get_operator_label():
+    return OPERATOR_LABEL
+
+def get_competences_label():
+    return COMPETENCES_LABEL
+
+def get_competences_label_2():
+    return COMPETENCES_LABEL_2
 
 
 

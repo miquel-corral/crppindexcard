@@ -77,67 +77,53 @@
                 <td width="15%" align="center"><span class="required"><label>{{ constants.get_st_label_1 }} {{ constants.get_st_label_2 }}</label></span></td>
                 <td width="15%" align="center"><span class="required"><label>{{ constants.get_mt_label_1 }} {{ constants.get_mt_label_2 }}</label></span></td>
                 <td width="15%" align="center"><span class="required"><label>{{ constants.get_lt_label_1 }} {{ constants.get_lt_label_2 }}</label></span></td>
-                <td><div style="padding-left:5px;padding-right:5px;">{{ form.events_past_or_expected }}</div></td>
+                <td><div style="padding-left:5px;padding-right:5px;">{{ form.events_past_or_expected.errors }}{{ form.events_past_or_expected }}</div></td>
             </tr>
             <tr>
                 <td width="10%"><span class="required"><label>{{ constants.get_no_losses_label }}</label></span></td>
-                <td width="15%">{{form.it_no_losses}}</td>
-                <td width="15%">{{form.st_no_losses}}</td>
-                <td width="15%">{{form.mt_no_losses}}</td>
-                <td width="15%">{{form.lt_no_losses}}</td>
+                <td width="15%">{{form.it_no_losses.errors}}{{form.it_no_losses}}</td>
+                <td width="15%">{{form.st_no_losses.errors}}{{form.st_no_losses}}</td>
+                <td width="15%">{{form.mt_no_losses.errors}}{{form.mt_no_losses}}</td>
+                <td width="15%">{{form.lt_no_losses.errors}}{{form.lt_no_losses}}</td>
                 <td><div style="padding-left:5px;"><span class="helptext"><label>{{ constants.get_number_of_events_label }}</label></span></div></td>
             </tr>
             <tr>
                 <td width="10%"><span class="required"><label>{{ constants.get_disruption_function_label }}</label></span></td>
-                <td width="15%">{{form.it_disruption_function}}</td>
-                <td width="15%">{{form.st_disruption_function}}</td>
-                <td width="15%">{{form.mt_disruption_function}}</td>
-                <td width="15%">{{form.lt_disruption_function}}</td>
+                <td width="15%">{{form.it_disruption_function.errors}}{{form.it_disruption_function}}</td>
+                <td width="15%">{{form.st_disruption_function.errors}}{{form.st_disruption_function}}</td>
+                <td width="15%">{{form.mt_disruption_function.errors}}{{form.mt_disruption_function}}</td>
+                <td width="15%">{{form.lt_disruption_function.errors}}{{form.lt_disruption_function}}</td>
                 <td><div style="padding-left:5px;"><span class="helptext"><label>{{ constants.get_number_of_events_label }}</label></span></div></td>
             </tr>
             <tr>
                 <td width="10%"><span class="required"><label>{{ constants.get_material_losses_label }}</label></span></td>
-                <td width="15%">{{form.it_material_losses}}</td>
-                <td width="15%">{{form.st_material_losses}}</td>
-                <td width="15%">{{form.mt_material_losses}}</td>
-                <td width="15%">{{form.lt_material_losses}}</td>
+                <td width="15%">{{form.it_disruption_function.errors}}{{form.it_material_losses}}</td>
+                <td width="15%">{{form.st_disruption_function.errors}}{{form.st_material_losses}}</td>
+                <td width="15%">{{form.mt_disruption_function.errors}}{{form.mt_material_losses}}</td>
+                <td width="15%">{{form.lt_disruption_function.errors}}{{form.lt_material_losses}}</td>
                 <td><div style="padding-left:5px;"><span class="helptext"><label><label>{{ constants.get_number_of_events_label }}</label></span></div></td>
             </tr>
             <tr>
                 <td width="10%"><span class="required"><label>{{ constants.get_casualties_label }}</label></span></td>
-                <td width="15%">{{form.it_casualties}}</td>
-                <td width="15%">{{form.st_casualties}}</td>
-                <td width="15%">{{form.mt_casualties}}</td>
-                <td width="15%">{{form.lt_casualties}}</td>
+                <td width="15%">{{form.it_disruption_function.errors}}{{form.it_casualties}}</td>
+                <td width="15%">{{form.st_disruption_function.errors}}{{form.st_casualties}}</td>
+                <td width="15%">{{form.mt_disruption_function.errors}}{{form.mt_casualties}}</td>
+                <td width="15%">{{form.it_disruption_function.errors}}{{form.lt_casualties}}</td>
                 <td><div style="padding-left:5px;"><span class="helptext"><label><label>{{ constants.get_number_of_events_label }}</label></span></div></td>
             </tr>
             <tr>
                 <td width="10%"><span class="required"><label>{{ constants.get_mov_label }}</label></span></td>
-                <td colspan="4">{{form.mov}}</td>
+                <td colspan="4">{{form.mov.errors}}{{form.mov}}</td>
                 <td width="15%"><div style="padding-left:5px;"><span class="helptext"><label>{{ constants.get_mov_comments_hazard_label }}</label></span></div></td>
             </tr>
             <tr>
-                <td width="10%"><span class="required"><label>{{ constants.get_additional_information_label }}</label></span></td>
-                <td colspan="4">{{form.additional_information}}</td>
+                <td width="10%"><span class="required"><label>{{ constants.get_additional_info_label }}</label></span></td>
+                <td colspan="4">{{form.additional_information.errors}}{{form.additional_information}}</td>
                 <td><div style="padding-left:5px;"><span class="helptext"><label>{{ constants.get_additional_info_hazards_label }}</label></span></div></td>
             </tr>
 
          </table>
 
-        {% for field in form %}
-                {% if field.errors|length_is:'1' %}{{ field.errors }}{% endif %}
-
-
-
-
-{% comment %}
-                <div{% if not line.fields|length_is:'1' %} class="field-box{% if field.field.name %} field-{{ field.name }}{% endif %}{% if not field.is_readonly and field.errors %} errors{% endif %}"{% elif field.is_checkbox %} class="checkbox-row"{% endif %}>
-                                {{ field }}
-                </div>
-
-{% endcomment %}
-
-        {% endfor %}
         </div>
     {% endfor %}
 

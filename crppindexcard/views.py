@@ -12,7 +12,7 @@ from django import forms
 from django.contrib.auth.decorators import login_required
 
 from crppindexcard.models import IndexCard, Question, Hazard, HazardAssessmentMatrix, ServiceT1Question, \
-    ServiceT2Question, ServiceT3Question, ServiceT5Question
+    ServiceT2Question, ServiceT3Question, ServiceT5Question, CompetenceQuestion
 
 import crppindexcard.constants
 
@@ -101,7 +101,7 @@ def section_questions(request, index_card_id, section_id):
         if formset.is_valid():
             formset.save()
             return render_to_response("crppindexcard/index.html",
-                                      {'index_card': index_card})
+                                      {'index_card': index_card}, context_instance=RequestContext(request))
         else:
             if format(len(formset.errors) > 0):
                 num_errors = len(formset.errors[0])
@@ -224,10 +224,6 @@ def service_questions(request, index_card_id, hazard_id, index_card_service_id):
             query_set = ServiceT1Question.objects.filter(index_card_service_id=index_card_service_id)
             template_name = "crppindexcard/service_t1_questions.html"
 
-            #formset = QuestionFormSet(queryset = query_set)
-            #return render_to_response("crppindexcard/service_t1_questions.html",
-            #    dict(formset=formset, index_card=index_card, hazard=hazard, service=index_card_service.service, \
-            #    constants=crppindexcard.constants), context_instance=RequestContext(request))
 
         if service_component_list_count == 2:
             query_set = ServiceT2Question.objects.filter(index_card_service_id=index_card_service_id)
@@ -246,17 +242,38 @@ def service_questions(request, index_card_id, hazard_id, index_card_service_id):
                 dict(formset=formset, index_card=index_card, hazard=hazard, service=index_card_service.service, \
                 constants=crppindexcard.constants), context_instance=RequestContext(request))
 
+@login_required
+def infrastructure_questions(request, index_card_id):
+    """
+    View for the competence questions of the infrastructures of the index_card (city)
+    :param request:
+    :return:
+    """
 
-### OBS: cal enviar resposta a tres templates diferents!!!!!!!
+    QuestionFormSet = modelformset_factory(CompetenceQuestion)
+    index_card = IndexCard.objects.get(id=index_card_id)
 
-        #formset = QuestionFormSet(queryset = query_set)
-        #set_form_readonly_fields(formset, read_only_fields)
-        #set_form_hidden_fields(formset, fields_to_show)
-"""
-    return render_to_response("crppindexcard/service_questions.html",
-                              dict(formset=formset, index_card=index_card, hazard=hazard), \
+
+    if request.method == 'POST':
+        formset = QuestionFormSet(request.POST, request.FILES)
+        if formset.is_valid():
+            formset.save()
+            return render_to_response("crppindexcard/index.html",
+                                      {'index_card': index_card})
+        else:
+            if format(len(formset.errors) > 0):
+                num_errors = len(formset.errors[0])
+    else:
+        query_set = CompetenceQuestion.objects.filter(index_card = index_card.id)
+        formset = QuestionFormSet(queryset = query_set)
+
+    return render_to_response("crppindexcard/infrastructure_questions.html",
+                              dict(formset=formset, index_card=index_card, constants=crppindexcard.constants), \
                               context_instance=RequestContext(request))
-"""
+
+
+
+
 
 def set_form_hidden_fields(formset, fields_to_show):
     """

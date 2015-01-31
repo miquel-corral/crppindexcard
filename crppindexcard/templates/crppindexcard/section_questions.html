@@ -80,7 +80,7 @@
 
                     <!-- Treatement for Statement field -->
                     {% if field.name == 'statement' %}
-                        <span class="required"><label>{{ field.value }}</label></span>
+                        <span class="required"><label>{{ field.value }}{{ field.as_hidden }}</label></span>
                     {% endif %}
                     <!-- Capture type of answer -->
                     {% if field.name == 'answer_type' %}
@@ -106,7 +106,7 @@
                     {% endif %}
                      <!-- Treatement for Comments field -->
                     {% if field.name == 'comments' %}
-                        <span class="helptext"><label>{{ field.value }}</label></span>
+                        <span class="helptext"><label>{{ field.value }}{{ field.as_hidden }}</label></span>
                     {% endif %}
 
 

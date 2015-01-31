@@ -19,7 +19,9 @@ django.setup()
 
 from django.contrib.auth.models import User
 from crppindexcard.models import IndexCard, Section, Question, Hazard, HazardCategory, HazardAssessmentMatrix, Service,\
-    ServiceComponent, ServiceT1Question, ServiceT2Question, ServiceT3Question, IndexCardService, ServiceT5Question
+    ServiceComponent, ServiceT1Question, ServiceT2Question, ServiceT3Question, IndexCardService, ServiceT5Question, \
+     CompetenceQuestion
+
 import crppindexcard.constants
 
 def load_users_file():
@@ -238,6 +240,24 @@ def generate_services_questions():
 
     print("generate_services_questions. End....")
 
+
+def generate_infrastructure_questions():
+    print("generate_infrastructure_questions. Start....")
+    for index_card in IndexCard.objects.all():
+        for index_card_service in index_card.indexcardservice_set.all():
+            for service_component in index_card_service.service.servicecomponent_set.all():
+                competence_question = CompetenceQuestion()
+                question_name = index_card_service.service.name
+                if question_name != service_component.name:
+                    question_name = question_name + " - " + service_component.name
+                competence_question.label_text = question_name
+                print("competence_question.label_text: " + competence_question.label_text)
+                competence_question.index_card = index_card
+                competence_question.save()
+
+    print("generate_infrastructure_questions. End....")
+
+
 def test():
     print("test. Start....")
     for index_card in IndexCard.objects.all():
@@ -277,6 +297,14 @@ if __name__ == "__main__":
     load_services_file()
     generate_services_list()
     generate_services_questions()
-
+    generate_infrastructure_questions()
+    #load_hard_infrastructure_file()
+    #generate_hard_infrastructure_questions()
+    #load_built_infrastructure_file()
+    #generate_built_infrastructure_questions()
+    #load_built_environment_file()
+    #generate_built_environment_questions()
+    #load_environment_file()
+    #generate_environment_questions()
     #test()
 
