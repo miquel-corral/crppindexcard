@@ -13,7 +13,7 @@
 <div id="content-main">
 
 {% if index_card %}
-    <div class="module">
+    <div class="module" style="float:left;width:25%;margin-right:20px;">
         <table>
         <caption>
             <div class="section">City Index Card for:  {{ index_card.city }}</div>
@@ -31,11 +31,11 @@
          {% endfor %}
         </table>
      </div>
-{%comment%}
-    <div class="module">
+
+    <div class="module" style="float:left;margin-right:20px;width:25%;">
         <table>
         <caption>
-            <div class="section">Hazards assessment for:  {{ index_card.city }}</div>
+            <div class="section">Impacts assessment for:  {{ index_card.city }}</div>
             <div style="float:right;padding-right:18px;"></div>
         </caption>
         {% for hazard in index_card.hazards.all %}
@@ -54,23 +54,25 @@
          {% endfor %}
         </table>
      </div>
-     <div>
+     <div class="module" style="float:left;margin-right:20px;width:25%;">
         <table>
         <caption>
-            <div class="section">Competences for:  {{ index_card.city }}</div>
+            <div class="section">Competences and Organization for:  {{ index_card.city }}</div>
             <div style="float:right;padding-right:18px;"></div>
         </caption>
+        {% for index_card_competence_category in index_card.indexcardcompetencecategory_set.all %}
             <tr class="section-{{ hazard.object_name|lower }}">
                 <th scope="row">
-                    <a href="{% url 'infrastructure_questions' index_card_id=index_card.id %}">Infrastructures (services supply)</a>
+                    <a href="{% url 'competence_questions' index_card_id=index_card.id index_card_competence_category_id=index_card_competence_category.id%}">{{index_card_competence_category.competence_category.name}}</a>
                 </th>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
+         {% endfor %}
         </table>
      </div>
-{%endcomment%}
+
 {% else %}
     <p>{% trans "City Index Card not set for " %}{{ user.username }}</p>
 {% endif %}

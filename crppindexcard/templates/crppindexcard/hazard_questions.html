@@ -14,7 +14,7 @@
 
 <div class="breadcrumbs">
     <a href="{% url 'index' %}">{{ index_card.city }}</a> &rsaquo;
-    <a href="{% url 'index' %}">{{ hazard.name }} </a>
+    {{ hazard.name }}
 </div>
 {% endblock %}
 {% endif %}
@@ -27,7 +27,7 @@
 <div class="module">
     <table style="width:100%">
         <caption>
-            <div class="section">City Index Card for:  {{ index_card.city }} &rsaquo; Hazard: {{ hazard.name }}</div>
+            <div class="section">{{ index_card.city }} &rsaquo; Impact: {{ hazard.name }}</div>
             <div style="float:right;padding-right:18px;"></div>
         </caption>
     </table>
@@ -61,9 +61,18 @@
 <fieldset class="module aligned">
 <!--  to render formsetv -->
     {% for form in formset %}
-
         <!-- main framework of the form -->
         <div class="form-row {% if not field.is_readonly and field.errors %} errors{% endif %} field-{{ field.name }}">
+        {%comment%}
+            need to print form.id to avoid errors in post request
+            need to print hazard and index_card fields as hidden
+        {%endcomment%}
+        {{form.id}}
+        {{form.hazard.as_hidden}}
+        {{form.index_card.as_hidden}}
+
+
+
         <!--  table structure -->
          <table>
             <tr>

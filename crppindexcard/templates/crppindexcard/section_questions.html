@@ -14,7 +14,7 @@
 
 <div class="breadcrumbs">
     <a href="{% url 'index' %}">{{ index_card.city }}</a> &rsaquo;
-    <a href="{% url 'index' %}">{{ section.name }} </a>
+    {{ section.name }}
 </div>
 {% endblock %}
 {% endif %}
@@ -52,7 +52,6 @@
                     {% endif %}
                 {% endfor %}
             {% endfor %}
-
         </p>
 
 
@@ -62,17 +61,13 @@
 <!--  to render formsetv -->
     {% for form in formset %}
 
-
-
         <div class="form-row {% if not field.is_readonly and field.errors %} errors{% endif %} field-{{ field.name }}">
         {% for field in form %}
-
-            {% if field.is_hidden and field.name != 'hazard'%}
+            {% if field.is_hidden %}
                 <div class="">
                     {{ field }}
                 </div>
             {% else %}
-
 
             <!-- <div class="form-row {% if not field.is_readonly and field.errors %} errors{% endif %} field-{{ field.name }}"> -->
                 {% if field.errors|length_is:'1' %}{{ field.errors }}{% endif %}

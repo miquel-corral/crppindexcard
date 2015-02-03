@@ -1,0 +1,56 @@
+Power Supply, High Voltage
+Power Supply, Medium Voltage
+Power Supply, Low Voltage
+Power Supply,Alternative energies (specify)
+Gas Supply, Transport Network
+Gas Supply, Distribution Network
+Water Supply, Transport Network
+Water Supply, Distribution Network
+IT, Land Lines
+IT, Cell Lines
+IT, Radio/TV
+Public Transport, Bus
+Public Transport, Train
+Public Transport, Metro
+Public Transport, Tram
+Public Transport, Others
+Sanitation,Sewer system
+Sanitation, Waste collection
+Food supply, Food supply
+Fuel/oil supply, Fuel/oil supply
+Other Supplies, Other Supplies
+Hard Infrastructure,Railway Network
+Hard Infrastructure,Airport
+Hard Infrastructure,Harbour - port
+Hard Infrastructure,Highways
+Hard Infrastructure,Main roads
+Hard Infrastructure,Others (specify)
+Hard Infrastructure,Comments
+Built Environment,Private housing (dwellings)
+Built Environment,Public housing
+Built Environment,Hospitals
+Built Environment,Health Centers
+Built Environment,Sport facilities
+Built Environment,Educational facilities - Schools
+Built Environment,Educational facilities - Universities
+Built Environment,Cultural facilities
+Built Environment,Industrial facilities
+Built Environment,Others (specify)
+Built Environment,Comments
+Environment,Green Infrastructure - Forests
+Environment,Green Infrastructure - Parks
+Environment,Green Infrastructure - Others
+Environment,Blue Infrastructure - Rivers
+Environment,Blue Infrastructure - Lakes/ponds
+Environment,Blue Infrastructure - Others
+Environment,Others (specify)
+Environment,Comments
+Social,Police - National
+Social,Police - Local
+Social,Security Forces (specify)
+Social,Firemen
+Social,Civil Defense
+Social,Children Care
+Social,Women Care
+Social,Senior Care
+Social,Others (specify)

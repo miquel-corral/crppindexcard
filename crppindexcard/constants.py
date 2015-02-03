@@ -38,14 +38,19 @@ GAS_TRANSPORT_NETWORK = 'Part of the network that carries the supply without rea
 GAS_DISTRIBUTION_NETWORK = 'Part of the network that connects the service to the final user, generally at low pressure'
 PLEASE_SPECIFY = 'Please specify'
 
+
 OWNER_RESPONSIBLE_LABEL = 'Owner/Responsible'
 OPERATOR_LABEL = 'Operator'
 COMPETENCES_LABEL = 'Competences of the local gov.'
-COMPETENCES_LABEL_2 = 'Define the level of competency of your local government: all/decision making/surveillance/operation/informed/none. Relationship with other level government entities'
+EC_ROLE_LABEL = 'Role in E/C Plans'
+
+COMPETENCES_EXPLANATION_1 = 'Define the owner/responsible for the infrastructure or service, the competences of your' \
+    'local government and its role in Emergency/Contingency plans.'
+COMPETENCES_EXPLANATION_2 = 'More then one option can be selected. Add any comment or additional information ' \
+    'you consider in the text boxes below the selection options.'
 
 def get_recurrence_label():
     return RECURRENCE_LABEL
-
 
 def get_recurrence_comment_label():
     return RECURRENCE_COMMENT_LABEL
@@ -147,9 +152,14 @@ def get_operator_label():
 def get_competences_label():
     return COMPETENCES_LABEL
 
-def get_competences_label_2():
-    return COMPETENCES_LABEL_2
+
+def get_ec_role_label():
+    return EC_ROLE_LABEL
 
 
+def get_competences_explanation_1_label():
+    return COMPETENCES_EXPLANATION_1
 
 
+def get_competences_explanation_2_label():
+    return COMPETENCES_EXPLANATION_2

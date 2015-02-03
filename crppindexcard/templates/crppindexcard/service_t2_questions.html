@@ -14,8 +14,8 @@
 
 <div class="breadcrumbs">
     <a href="{% url 'index' %}">{{ index_card.city }}</a> &rsaquo;
-    <a href="{% url 'index' %}">{{ hazard.name }} </a> &rsaquo;
-    <a href="{% url 'services_list' index_card_id=index_card.id% hazard_id=hazard.id service_id=service.id}">{{ service.name }} </a> &rsaquo;
+    <a href="{% url 'services_list' index_card_id=index_card.id hazard_id=hazard.id%}">{{ hazard.name }} </a> &rsaquo;
+    {{ service.name }}
 </div>
 {% endblock %}
 {% endif %}
@@ -28,7 +28,7 @@
 <div class="module">
     <table style="width:100%">
         <caption>
-            <div class="section">City Index Card for:  {{ index_card.city }} &rsaquo; Hazard: {{ hazard.name }} &rsaquo; Service: {{ service.name }}</div>
+            <div class="section">{{ index_card.city }} &rsaquo; Impact: {{ hazard.name }} &rsaquo; Service: {{ service.name }}</div>
             <div style="float:right;padding-right:18px;"></div>
         </caption>
     </table>
@@ -65,6 +65,12 @@
 
         <!-- main framework of the form -->
         <div class="form-row {% if not field.is_readonly and field.errors %} errors{% endif %} field-{{ field.name }}">
+        {%comment%}
+            need to print form.id to avoid errors in post request
+            need to print index_card_service field as hidden
+        {%endcomment%}
+        {{form.id}}
+        {{form.index_card_service.as_hidden}}
         <!--  table structure -->
          <table>
             <tr>

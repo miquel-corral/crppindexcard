@@ -103,8 +103,9 @@
         <br class="clear" />
     </div>
     <!-- END Content -->
-
-    {% block footer %}<div id="footer"></div>{% endblock %}
+    {% if not is_logout %}
+    {% block footer %}<div id="footer"><h4><a href="{% url 'copyright' %}">Copyright © 2015</a>, City Resilience Profiling Programme</h4></div>{% endblock %}
+    {% endif %}
 </div>
 <!-- END Container -->
 <script language="javascript" type="text/javascript">

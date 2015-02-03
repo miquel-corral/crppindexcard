@@ -8,7 +8,7 @@ body.login {
     background: white;
     border: 1px solid #ccc;
     width: 28em;
-    min-width: 300px;
+    min-width: 400px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 100px;
@@ -52,7 +52,9 @@ body.login {
 
 .login .submit-row-login {
     clear: both;
-    padding: 1em 0 0 9.4em;
+    /* padding: 1em 0 0 9.4em; */
+    padding:10px;
+    text-align:center;
 }
 
 .login .submit-row {

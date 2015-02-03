@@ -14,8 +14,8 @@
 
 <div class="breadcrumbs">
     <a href="{% url 'index' %}">{{ index_card.city }}</a> &rsaquo;
-    <a href="{% url 'index' %}">{{ hazard.name }} </a> &rsaquo;
-    <a href="{% url 'services_list' index_card_id=index_card.id% hazard_id=hazard.id service_id=service.id}">{{ service.name }} </a> &rsaquo;
+    <a href="{% url 'index' %}">Organization and Competences</a> &rsaquo;
+    {{index_card_competence_category.competence_category.name}}
 </div>
 {% endblock %}
 {% endif %}
@@ -28,7 +28,7 @@
 <div class="module">
     <table style="width:100%">
         <caption>
-            <div class="section">City Index Card for:  {{ index_card.city }} &rsaquo; Hazard: {{ hazard.name }} &rsaquo; Service: {{ service.name }}</div>
+            <div class="section">{{ index_card.city }} &rsaquo; Organization and Competences:  &rsaquo; {{index_card_competence_category.competence_category.name}}</div>
             <div style="float:right;padding-right:18px;"></div>
         </caption>
     </table>
@@ -70,23 +70,37 @@
         <!--  table structure -->
          <table style="width:100%">
             <tr>
-                <td width="16%">&nbsp;</td>
-                <td colspan="3" align="center"><span class="helptext"><label>{{ constants.get_competences_label_2 }}</label></span></td>
+                <td width="20%">&nbsp;</td>
+                <td colspan="4" align="center"><span class="helptext"><label>{{ constants.get_competences_explanation_1_label }}<br>{{ constants.get_competences_explanation_2_label }}</label></span></td>
             </tr>
 
             <tr>
-                <td width="16%">&nbsp;</td>
-                <td width="28%" align="center"><span class="required"><label>{{ constants.get_owner_responsible_label }}</label></span></td>
-                <td width="28%" align="center"><span class="required"><label>{{ constants.get_operator_label }}</label></span></td>
-                <td width="28%" align="center"><span class="required"><label>{{ constants.get_competences_label }}</label></span></td>
+                <td width="20%">&nbsp;</td>
+                <td width="20%" align="center"><span class="required"><label>{{ constants.get_owner_responsible_label }}</label></span></td>
+                <td width="20%" align="center"><span class="required"><label>{{ constants.get_operator_label }}</label></span></td>
+                <td width="20%" align="center"><span class="required"><label>{{ constants.get_competences_label }}</label></span></td>
+                <td width="20%" align="center"><span class="required"><label>{{ constants.get_ec_role_label }}</label></span></td>
             </tr>
+
+             <style>
+                 textarea{
+                    padding: 2px 0px;
+                 }
+             </style>
 
             {% for form in formset %}
+                {%comment%}
+                    need to print form.id to avoid errors in post request
+                    need to print index_card_competence_category field as hidden
+                {%endcomment%}
+                {{form.id}}
+                {{form.index_card_competence_category.as_hidden}}
             <tr>
-                <td width="16%"><span class="required"><label>{{ form.label_text.value }}{{ form.label_text.as_hidden }}</label></span></td>
-                <td width="28%" align="center">{{ form.owner }}</td>
-                <td width="28%" align="center">{{ form.operator }}</td>
-                <td width="28%" align="center">{{ form.competences }}</td>
+                <td width="20%"><span class="required"><label>{{ form.label_text.value }}{{ form.label_text.as_hidden }}</label></span></td>
+                <td width="20%" align="center"><div>{{ form.owner.errors }}{{ form.owner }}{{ form.owner_comments.errors }}{{ form.owner_comments }}</div></td>
+                <td width="20%" align="center">{{ form.operator.errors }}{{ form.operator }}{{ form.operator_comments.errors }}{{ form.operator_comments }}</td>
+                <td width="20%" align="center">{{ form.competences.errors }}{{ form.competences }}{{ form.competences_comments.errors }}{{ form.competences_comments }}</td>
+                <td width="20%" align="center">{{ form.role_in_ec_plan.errors }}{{ form.role_in_ec_plan }}{{ form.role_in_ec_plan_comments.errors }}{{ form.role_in_ec_plan_comments }}</td>
             </tr>
             {% endfor %}
 

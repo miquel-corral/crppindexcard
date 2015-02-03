@@ -5,11 +5,15 @@ from django.contrib import admin
 urlpatterns = patterns('',
     # url to form login
     url(r'^accounts/login/$', 'crppindexcard.views.my_login', name="my_login"),
+
     # url to logout page
     url(r'^logout/$', 'crppindexcard.views.my_logout', name='logout'),
 
     # base url
     url(r'^$', 'crppindexcard.views.index', name='index'),
+
+    # url to copyright page
+    url(r'^copyright/$', 'crppindexcard.views.copyright', name='copyright'),
 
     # url to page with index card (lis of sections) of authenticated user/city
     url(r'^index/', 'crppindexcard.views.index', name='index'),
@@ -27,7 +31,7 @@ urlpatterns = patterns('',
     url(r'^service_questions/(?P<index_card_id>\d+)/(?P<hazard_id>\d+)/(?P<index_card_service_id>\d+)/$', 'crppindexcard.views.service_questions', name='service_questions'),
 
     # url to page with questions for infrastructures related to services supply
-    url(r'^questions/(?P<index_card_id>\d+)/$', 'crppindexcard.views.infrastructure_questions', name='infrastructure_questions'),
+    url(r'^competence_questions/(?P<index_card_id>\d+)/(?P<index_card_competence_category_id>\d+)/$', 'crppindexcard.views.competence_questions', name='competence_questions'),
 
 
     # url to admin pages

@@ -12,7 +12,7 @@ from django import forms
 from django.contrib.auth.decorators import login_required
 
 from crppindexcard.models import IndexCard, Question, Hazard, HazardAssessmentMatrix, ServiceT1Question, \
-    ServiceT2Question, ServiceT3Question, ServiceT5Question, CompetenceQuestion
+    ServiceT2Question, ServiceT3Question, ServiceT5Question, CompetenceQuestion, IndexCardCompetenceCategory
 
 import crppindexcard.constants
 
@@ -56,7 +56,7 @@ def my_login(request):
 def my_logout(request):
     logout(request)
     template = loader.get_template('crppindexcard/logout.html')
-    context = RequestContext(request, {})
+    context = RequestContext(request, {'is_logout': "logout"})
     return HttpResponse(template.render(context))
 
 
@@ -77,6 +77,26 @@ def index(request):
     context = RequestContext(request, {
         'index_card': index_card,
         'username': username,
+    })
+    return HttpResponse(template.render(context))
+
+
+def copyright(request):
+    """
+    View for the copyright page
+
+    :param request:
+    :return:
+    """
+    username = request.session.get('username')
+    try:
+        index_card = IndexCard.objects.get(username=username)
+    except:
+        index_card = None
+    template = loader.get_template('crppindexcard/copyright.html')
+    context = RequestContext(request, {
+        'username': username,
+        'index_card': index_card,
     })
     return HttpResponse(template.render(context))
 
@@ -109,7 +129,7 @@ def section_questions(request, index_card_id, section_id):
         set_form_readonly_fields(formset, read_only_fields)
     else:
         query_set = Question.objects.filter(section_id = section_id).order_by('id')
-        formset = QuestionFormSet(queryset = query_set)
+        formset = QuestionFormSet(queryset=query_set)
         set_form_readonly_fields(formset, read_only_fields)
         set_form_hidden_fields(formset, fields_to_show)
 
@@ -128,11 +148,6 @@ def hazard_questions(request, index_card_id, hazard_id):
     :param request:
     :return:
     """
-    #fields_to_show = \
-    #    ('statement','answer_type', 'answer_short', 'answer_long', 'comments')
-    #read_only_fields = ('comments')
-
-
     QuestionFormSet = modelformset_factory(HazardAssessmentMatrix, max_num=1)
     index_card = IndexCard.objects.get(id=index_card_id)
     hazard = index_card.hazards.get(id = hazard_id)
@@ -146,17 +161,13 @@ def hazard_questions(request, index_card_id, hazard_id):
         else:
             if format(len(formset.errors) > 0):
                 num_errors = len(formset.errors[0])
-        #set_form_hidden_fields(formset, fields_to_show)
-        #set_form_readonly_fields(formset, read_only_fields)
     else:
-        query_set = hazard.hazardassessmentmatrix_set.all().order_by('id')
-        formset = QuestionFormSet(queryset = query_set)
-        #set_form_readonly_fields(formset, read_only_fields)
-        #set_form_hidden_fields(formset, fields_to_show)
+        query_set = HazardAssessmentMatrix.objects.filter(index_card_id=index_card_id, hazard_id=hazard_id)
+        formset = QuestionFormSet(queryset=query_set)
 
-    return render_to_response("crppindexcard/hazard_questions.html",
-                              dict(formset=formset, index_card=index_card, hazard=hazard, constants=crppindexcard.constants), \
-                              context_instance=RequestContext(request))
+    return render_to_response("crppindexcard/hazard_questions.html",{
+                              "formset":formset, "index_card":index_card, "hazard":hazard, \
+                              "constants":crppindexcard.constants}, context_instance=RequestContext(request))
 
 @login_required
 def services_list(request, index_card_id, hazard_id):
@@ -243,15 +254,18 @@ def service_questions(request, index_card_id, hazard_id, index_card_service_id):
                 constants=crppindexcard.constants), context_instance=RequestContext(request))
 
 @login_required
-def infrastructure_questions(request, index_card_id):
+def competence_questions(request, index_card_id, index_card_competence_category_id):
     """
     View for the competence questions of the infrastructures of the index_card (city)
     :param request:
     :return:
     """
 
-    QuestionFormSet = modelformset_factory(CompetenceQuestion)
+    fields_to_apply = ('owner') #,'operator','competences','role_in_ec_plan')
+
+    QuestionFormSet = modelformset_factory(CompetenceQuestion, max_num=1)
     index_card = IndexCard.objects.get(id=index_card_id)
+    index_card_competence_category = IndexCardCompetenceCategory.objects.get(id=index_card_competence_category_id)
 
 
     if request.method == 'POST':
@@ -264,11 +278,12 @@ def infrastructure_questions(request, index_card_id):
             if format(len(formset.errors) > 0):
                 num_errors = len(formset.errors[0])
     else:
-        query_set = CompetenceQuestion.objects.filter(index_card = index_card.id)
+        query_set = CompetenceQuestion.objects.filter(index_card_competence_category_id=index_card_competence_category_id).order_by('id')
         formset = QuestionFormSet(queryset = query_set)
 
-    return render_to_response("crppindexcard/infrastructure_questions.html",
-                              dict(formset=formset, index_card=index_card, constants=crppindexcard.constants), \
+    return render_to_response("crppindexcard/competence_questions.html",
+                              dict(formset=formset, index_card=index_card, constants=crppindexcard.constants, \
+                                   index_card_competence_category=index_card_competence_category), \
                               context_instance=RequestContext(request))
 
 
@@ -286,6 +301,20 @@ def set_form_hidden_fields(formset, fields_to_show):
         for field in form.fields:
             if not any(field in s for s in fields_to_show):
                 form.fields[field].widget = forms.HiddenInput()
+
+
+def set_form_hidden_fields_hidden_fields(formset, fields_to_hide):
+    """
+    Function to set hidden fields and show fields of each form in formset
+    :param formset:
+    :param files_to_show:
+    :return:
+    """
+    for form in formset:
+        for field in form.fields:
+            if field in fields_to_hide:
+                form.fields[field].widget = forms.HiddenInput()
+
 
 def set_form_readonly_fields(formset, read_only_fields):
     """

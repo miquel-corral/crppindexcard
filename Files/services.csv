@@ -1,10 +1,11 @@
 Power supply, High Voltage
 Power supply, Medium Voltage
 Power supply, Low Voltage
-Gas, Transport Network
-Gas, Distribution Network
-Water, Transport Network
-Water, Distribution Network
+Gas Supply, Transport Network
+Gas Supply, Distribution Network
+Water Supply, Transport Network
+Water Supply, Distribution Network
+Alternative energies,Alternative energies (specify),
 IT, Land Lines
 IT, Cell Lines
 IT, Radio/TV
@@ -17,4 +18,5 @@ Sanitation (sewer system),Sanitation (sewer system)
 Waste collection, Waste collection
 Food supply, Food supply
 Fuel/oil supply, Fuel/oil supply
-Others, Others
+Other Supplies, Other Supplies
+Supplies Comments, Supplies Comments

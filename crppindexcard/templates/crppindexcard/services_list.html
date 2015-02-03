@@ -10,7 +10,7 @@
 {% block breadcrumbs %}
 <div class="breadcrumbs">
     <a href="{% url 'index' %}">{{ index_card.city }}</a> &rsaquo;
-    <a href="{% url 'index' %}">{{ hazard.name }} </a>
+    {{ hazard.name }}
 </div>
 {% endblock %}
 
@@ -21,7 +21,7 @@
     <div class="module">
         <table>
         <caption>
-            <div class="section">City Index Card for:  {{ index_card.city }} &rsaquo; Hazard: {{ hazard.name }}</div>
+            <div class="section">{{ index_card.city }} &rsaquo; Impact: {{ hazard.name }}</div>
             <div style="float:right;padding-right:18px;"></div>
         </caption>
         {% for index_card_service in index_card.indexcardservice_set.all %}

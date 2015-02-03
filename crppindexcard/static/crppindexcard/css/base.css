@@ -421,17 +421,26 @@ input, textarea, select, .form-row p {
     font-size: 11px;
 }
 
+
 textarea {
     vertical-align: top !important;
 /* miquel - textarea */
     width: 100%;
     height: 5em;
+    padding: 0px 3px;
 }
 
 input[type=text], input[type=password], input[type=email], input[type=url], input[type=number],
 textarea, select, .vTextField {
     border: 1px solid #ccc;
 }
+
+select {
+    /* miquel */
+    width: 100%;
+    padding: 2px 3px;
+}
+
 
 /* FORM BUTTONS */
 
@@ -780,7 +789,9 @@ table#change-history tbody th {
 }
 
 .dashboard #content {
-    width: 500px;
+    /* miquel */
+    /* width: 500px; */
+    width: 90%;
 }
 
 /* HEADER */

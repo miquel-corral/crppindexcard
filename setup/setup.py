@@ -20,7 +20,8 @@ django.setup()
 from django.contrib.auth.models import User
 from crppindexcard.models import IndexCard, Section, Question, Hazard, HazardCategory, HazardAssessmentMatrix, Service,\
     ServiceComponent, ServiceT1Question, ServiceT2Question, ServiceT3Question, IndexCardService, ServiceT5Question, \
-     CompetenceQuestion
+    CompetenceQuestion, CompetenceComponent, CompetenceCategory, IndexCardCompetenceCategory, Ownership, Competence, \
+    RoleInECPlans, Operator
 
 import crppindexcard.constants
 
@@ -113,8 +114,8 @@ def load_questions_file():
         statement = row[3].strip()
         remarks = row[4].strip()
         # add question to each proper section for all index_cards
-        for index_card in IndexCard.objects.all():
-            for section in index_card.section_set.all():
+        for index_card in IndexCard.objects.all().order_by('id'):
+            for section in index_card.section_set.all().order_by('id'):
                 if section.code == section_code:
                     # new question
                     question = Question()
@@ -178,17 +179,41 @@ def load_services_file():
     print("load_services_file. End....")
 
 
+def load_organizational_file():
+    print("load_organizational_file. Start....")
+    file_path = settings.BASE_DIR + "/files/organizational.csv"
+    data_reader = csv.reader(open(file_path), delimiter=",", quotechar='"')
+    for row in data_reader:
+        competence_category_name = row[0].strip()
+        competence_component_name = row[1].strip()
+        # search service
+        try:
+            competence_category = CompetenceCategory.objects.get(name=competence_category_name)
+        except:
+            competence_category = CompetenceCategory()
+            competence_category.name = competence_category_name
+            competence_category.save()
+        # add service component
+        competence_component = CompetenceComponent()
+        competence_component.name = competence_component_name
+        competence_component.competence_category = competence_category
+        competence_component.save()
+        print("Added competence_component: " + competence_component.name + " to competence_category: " + competence_category.name)
+
+    print("load_organizational_file. End....")
+
 def generate_hazard_questions_no_services():
     print("generate_hazard_questions_no_services. Start....")
     # for each index card assign hazards
-    for index_card in IndexCard.objects.all():
+    for index_card in IndexCard.objects.all().order_by('id'):
         print("index_card.username:" + index_card.username)
-        for hazard in Hazard.objects.all():
+        for hazard in Hazard.objects.all().order_by('id'):
             print("hazard.name: " + hazard.name)
             if hazard.name.find('Services') == -1:
                 hazard_matrix = HazardAssessmentMatrix()
                 hazard_matrix.hazard = hazard
-                hazard.save()
+                hazard_matrix.index_card = index_card
+                hazard_matrix.save()
             index_card.hazards.add(hazard)
         index_card.save()
     print("generate_hazard_questions_no_services. End....")
@@ -196,9 +221,9 @@ def generate_hazard_questions_no_services():
 
 def generate_services_list():
     print("generate_services_list. Start....")
-    for index_card in IndexCard.objects.all():
+    for index_card in IndexCard.objects.all().order_by('id'):
         print("index_card.username:" + index_card.username)
-        for service in Service.objects.all():
+        for service in Service.objects.all().order_by('id'):
             print("service.name: " + service.name)
             index_card_service = IndexCardService()
             index_card_service.service = service
@@ -210,10 +235,10 @@ def generate_services_list():
 def generate_services_questions():
     print("generate_services_questions. Start....")
     for index_card in IndexCard.objects.all():
-        for index_card_service in index_card.indexcardservice_set.all():
+        for index_card_service in index_card.indexcardservice_set.all().order_by('id'):
             service_question = None
             print("service.name: " + index_card_service.service.name)
-            service_component_list = list(index_card_service.service.servicecomponent_set.all())
+            service_component_list = list(index_card_service.service.servicecomponent_set.all().order_by('id'))
             service_component_list_count = len(service_component_list)
             if service_component_list_count == 1:
                 service_question = ServiceT1Question()
@@ -241,22 +266,43 @@ def generate_services_questions():
     print("generate_services_questions. End....")
 
 
-def generate_infrastructure_questions():
+def generate_organizational_components_list():
+    print("generate_organizational_components_list. Start....")
+    for index_card in IndexCard.objects.all():
+        print("index_card.username:" + index_card.username)
+        for competence_category in CompetenceCategory.objects.all().order_by('id'):
+            print("competence_category.name: " + competence_category.name)
+            index_card_competence_category = IndexCardCompetenceCategory()
+            index_card_competence_category.competence_category = competence_category
+            index_card_competence_category.index_card = index_card
+            index_card_competence_category.save()
+    print("generate_organizational_components_list. End....")
+
+
+def generate_organizational_questions():
     print("generate_infrastructure_questions. Start....")
     for index_card in IndexCard.objects.all():
-        for index_card_service in index_card.indexcardservice_set.all():
-            for service_component in index_card_service.service.servicecomponent_set.all():
+        for index_card_competence_category in index_card.indexcardcompetencecategory_set.all().order_by('id'):
+            for competence_component in CompetenceComponent.objects.filter(competence_category=index_card_competence_category.competence_category):
                 competence_question = CompetenceQuestion()
-                question_name = index_card_service.service.name
-                if question_name != service_component.name:
-                    question_name = question_name + " - " + service_component.name
-                competence_question.label_text = question_name
+                competence_question.label_text = competence_component.name
                 print("competence_question.label_text: " + competence_question.label_text)
-                competence_question.index_card = index_card
+                competence_question.index_card_competence_category = index_card_competence_category
                 competence_question.save()
 
     print("generate_infrastructure_questions. End....")
 
+
+def load_file_one_field_entity(file_name, class_name):
+    print("load_file_one_field_entity. Start....")
+    file_path = settings.BASE_DIR + "/files/" + file_name
+    data_reader = csv.reader(open(file_path), delimiter=",", quotechar='"')
+    for row in data_reader:
+        field_name = row[0].strip()
+        class_instance = class_name()
+        class_instance.code = field_name
+        class_instance.save()
+    print("load_file_one_field_entity. End....")
 
 def test():
     print("test. Start....")
@@ -297,14 +343,12 @@ if __name__ == "__main__":
     load_services_file()
     generate_services_list()
     generate_services_questions()
-    generate_infrastructure_questions()
-    #load_hard_infrastructure_file()
-    #generate_hard_infrastructure_questions()
-    #load_built_infrastructure_file()
-    #generate_built_infrastructure_questions()
-    #load_built_environment_file()
-    #generate_built_environment_questions()
-    #load_environment_file()
-    #generate_environment_questions()
+    load_organizational_file()
+    generate_organizational_components_list()
+    generate_organizational_questions()
+    load_file_one_field_entity("ownership.csv", Ownership)
+    load_file_one_field_entity("ownership.csv", Operator)
+    load_file_one_field_entity("competences.csv", Competence)
+    load_file_one_field_entity("roles_in_ec_plan.csv", RoleInECPlans)
     #test()
 

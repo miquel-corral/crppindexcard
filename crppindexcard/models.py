@@ -1,5 +1,6 @@
 # from django.db import models
 import django.db.models
+from django import forms
 
 
 class Common(django.db.models.Model):
@@ -36,6 +37,29 @@ class Hazard(django.db.models.Model):
     name = django.db.models.CharField(max_length=250, null=False, blank=False)
     category = django.db.models.ForeignKey(HazardCategory)
 
+class Service(django.db.models.Model):
+    """
+    Represents a service
+    """
+    name = django.db.models.CharField(max_length=100, null=False, blank=False)
+
+
+class ServiceComponent(django.db.models.Model):
+    """
+    Represents aservice component
+    """
+    name = django.db.models.CharField(max_length=100, null=False, blank=False)
+    service = django.db.models.ForeignKey(Service)
+
+
+class IndexCard(Common):
+    """
+    Represents Index Card Entry for a City to link index card with user
+    """
+    city = django.db.models.CharField(max_length=100, unique=True)
+    username = django.db.models.CharField(max_length=100, unique=True)
+    hazards = django.db.models.ManyToManyField(Hazard)
+
 class HazardAssessmentMatrix(django.db.models.Model):
     """
     Represents matrix question for hazard assessment
@@ -60,35 +84,15 @@ class HazardAssessmentMatrix(django.db.models.Model):
     mov = django.db.models.TextField(null=True, blank=True)
     additional_information = django.db.models.TextField(null=True, blank=True)
     hazard = django.db.models.ForeignKey(Hazard)
-
-class Service(django.db.models.Model):
-    """
-    Represents a service
-    """
-    name = django.db.models.CharField(max_length=100, null=False, blank=False)
-
-
-class ServiceComponent(django.db.models.Model):
-    """
-    Represents aservice component
-    """
-    name = django.db.models.CharField(max_length=100, null=False, blank=False)
-    service = django.db.models.ForeignKey(Service)
-
-
-class IndexCard(Common):
-    """
-    Represents Index Card Entry for a City to link index card with user
-    """
-    city = django.db.models.CharField(max_length=100, unique=True)
-    username = django.db.models.CharField(max_length=100, unique=True)
-    hazards = django.db.models.ManyToManyField(Hazard)
-
+    index_card = django.db.models.ForeignKey(IndexCard)
 
 class Section(Common):
     """
     Represents a section (set of questions) in the index card
     """
+    class Meta:
+            ordering = ['code']
+
     name = django.db.models.CharField(max_length=100, unique=False)
     index_card = django.db.models.ForeignKey(IndexCard)
 
@@ -194,53 +198,75 @@ class ServiceT5Question(django.db.models.Model):
     index_card_service = django.db.models.ForeignKey(IndexCardService)
 
 
+class CompetenceCategory(django.db.models.Model):
+    """
+    Represents a competence category of the city
+    """
+    name = django.db.models.CharField(max_length=100, null=False, blank=False)
+
+
+class CompetenceComponent(django.db.models.Model):
+    """
+    Represents a competence component
+    """
+    name = django.db.models.CharField(max_length=100, null=False, blank=False)
+    competence_category = django.db.models.ForeignKey(CompetenceCategory)
+
+
+class IndexCardCompetenceCategory(django.db.models.Model):
+    """
+    Represents a competence component for a index card
+    """
+    index_card = django.db.models.ForeignKey(IndexCard)
+    competence_category = django.db.models.ForeignKey(CompetenceCategory)
+
+class BaseClassName(django.db.models.Model):
+    """
+    Abstract class with name attribute
+    """
+    name = django.db.models.CharField(max_length=100, unique=False)
+    # ...
+
+    def __unicode__(self):  # Python 3: def __str__(self):
+        return self.code
+
+    class Meta:
+        abstract = True
+
+class Ownership(Common):
+    """
+    Represents ownership/responsibility entries
+    """
+
+class Operator(Common):
+    """
+    Represents operator entries
+    """
+
+class Competence(Common):
+    """
+    Represents competence entries
+    """
+
+class RoleInECPlans(Common):
+    """
+    Represents roles in E/C plans
+    """
+
 class CompetenceQuestion(django.db.models.Model):
     """
     Represents a competence question for a physical component of the city
     """
     label_text = django.db.models.CharField(max_length=100, null=True, blank=True)
-    owner = django.db.models.TextField(null=True, blank=True)
-    operator = django.db.models.TextField(null=True, blank=True)
-    competences = django.db.models.TextField(null=True, blank=True)
-    index_card = django.db.models.ForeignKey(IndexCard)
+    owner = django.db.models.ManyToManyField(Ownership, null=True, blank=True)
+    owner_comments = django.db.models.TextField(null=True, blank=True)
+    operator = django.db.models.ManyToManyField(Operator, null=True, blank=True)
+    operator_comments = django.db.models.TextField(null=True, blank=True)
+    competences = django.db.models.ManyToManyField(Competence, null=True, blank=True)
+    competences_comments = django.db.models.TextField(null=True, blank=True)
+    role_in_ec_plan = django.db.models.ManyToManyField(RoleInECPlans, null=True, blank=True)
+    role_in_ec_plan_comments = django.db.models.TextField(null=True, blank=True)
+    index_card_competence_category = django.db.models.ForeignKey(IndexCardCompetenceCategory)
 
 
-class HardInfrastructure(django.db.models.Model):
-    """
-    Represents a hard infrastructure of the city
-    """
-    name = django.db.models.CharField(max_length=100, null=False, blank=False)
 
-
-class IndexCardHardInfrastructure(django.db.models.Model):
-    """
-    Represents a hard infrastructure element competences question for an indexcard
-    """
-    hard_infrastructure = django.db.models.ForeignKey(HardInfrastructure)
-    index_card = django.db.models.ForeignKey(IndexCard)
-    competence_question = django.db.models.ForeignKey(CompetenceQuestion)
-
-class BuiltEnvironmentComponent(django.db.models.Model):
-    """
-    Represents a component of the built environment of the city
-    """
-    name = django.db.models.CharField(max_length=100, null=False, blank=False)
-
-class IndexCardBuiltEnvironmentComponent(django.db.models.Model):
-    """
-    Represents competence question for an indexcard built environment component
-    """
-    index_card = django.db.models.ForeignKey(IndexCard)
-    competence_question = django.db.models.ForeignKey(CompetenceQuestion)
-
-
-class EnvironmentComponent(django.db.models.Model):
-    """
-    Represents an environment component
-    """
-    name = django.db.models.CharField(max_length=100, null=False, blank=False)
-
-class IndexCardEnvironmentComponent(django.db.models.Model):
-    """
-    Represents a competence question for an indexcard environment component
-    """
