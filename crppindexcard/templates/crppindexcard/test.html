@@ -12,6 +12,7 @@
 {% if not is_popup %}
 {% block breadcrumbs %}
 
+
 <div class="breadcrumbs">
     <a href="{% url 'index' %}">{{ index_card.city }}</a> &rsaquo;
     {{ section.name }}
@@ -28,7 +29,7 @@
     <table style="width:100%">
         <caption>
             <div class="section">City Index Card for:  {{ index_card.city }} &rsaquo; Section: {{ section.name }}</div>
-            <div style="float:right;padding-right:18px;"></div>
+            <div style="float:right;padding-right:18px;"><h1>{{item_list}}</h1></div>
         </caption>
     </table>
 </div>
@@ -61,6 +62,8 @@
 <!--  to render formsetv -->
     {% for form in formset %}
 
+    {% with question_type as '' %}
+
         <div class="form-row {% if not field.is_readonly and field.errors %} errors{% endif %} field-{{ field.name }}">
         {% for field in form %}
             {% if field.is_hidden %}
@@ -72,48 +75,21 @@
             <!-- <div class="form-row {% if not field.is_readonly and field.errors %} errors{% endif %} field-{{ field.name }}"> -->
                 {% if field.errors|length_is:'1' %}{{ field.errors }}{% endif %}
                 <div{% if not line.fields|length_is:'1' %} class="field-box{% if field.field.name %} field-{{ field.name }}{% endif %}{% if not field.is_readonly and field.errors %} errors{% endif %}"{% elif field.is_checkbox %} class="checkbox-row"{% endif %}>
-
-                    <!-- Treatement for Statement field -->
-                    {% if field.name == 'statement' %}
-                        <span class="required"><label>{{ field.value|capfirst }}{{ field.as_hidden }}</label></span>
-                    {% endif %}
-                    <!-- Capture type of answer -->
-                    {% if field.name == 'answer_type' %}
-                        {% set_context_var "answer_type" field.value as answer_type %}
-                        {{ field.as_hidden }}
-                    {% endif %}
-                    <!-- Treatement for Answer field -->
-                    {% if field.name == 'answer_short' %}
-                        {% get_context_var "answer_type" as answer_type %}
-                        {% if answer_type == 'L' %}
-                            {{ field.as_hidden }}
-                        {% else %}
-                            {{ field }}
-                        {% endif%}
-                    {% endif %}
-                    {% if field.name == 'answer_long' %}
-                        {% get_context_var "answer_type" as answer_type %}
-                        {% if answer_type == 'S' %}
-                            {{ field.as_hidden }}
-                        {% else %}
-                            {{ field }}
-                        {% endif%}
-                    {% endif %}
-                     <!-- Treatement for Comments field -->
-                    {% if field.name == 'comments' %}
-                        <span class="helptext"><label>{{ field.value|capfirst }}{{ field.as_hidden }}</label></span>
-                    {% endif %}
-
-
+                    {{field}}
                 </div>
+
             <!-- </div> -->
             {% endif %}
         {% endfor %}
         </div>
+
+        {% endwith %}
     {% endfor %}
 
 </fieldset>
 </div> <!-- form div -->
+
+
 
 <div class="submit-row">
     <input class="default" type="submit" name="_save" value="Save"></input>

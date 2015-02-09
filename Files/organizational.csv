@@ -9,6 +9,7 @@ Water Supply, Distribution Network
 IT, Land Lines
 IT, Cell Lines
 IT, Radio/TV
+IT, Internet
 Public Transport, Bus
 Public Transport, Train
 Public Transport, Metro
@@ -25,7 +26,6 @@ Hard Infrastructure,Harbour - port
 Hard Infrastructure,Highways
 Hard Infrastructure,Main roads
 Hard Infrastructure,Others (specify)
-Hard Infrastructure,Comments
 Built Environment,Private housing (dwellings)
 Built Environment,Public housing
 Built Environment,Hospitals
@@ -36,7 +36,6 @@ Built Environment,Educational facilities - Universities
 Built Environment,Cultural facilities
 Built Environment,Industrial facilities
 Built Environment,Others (specify)
-Built Environment,Comments
 Environment,Green Infrastructure - Forests
 Environment,Green Infrastructure - Parks
 Environment,Green Infrastructure - Others
@@ -44,7 +43,6 @@ Environment,Blue Infrastructure - Rivers
 Environment,Blue Infrastructure - Lakes/ponds
 Environment,Blue Infrastructure - Others
 Environment,Others (specify)
-Environment,Comments
 Social,Police - National
 Social,Police - Local
 Social,Security Forces (specify)

@@ -62,6 +62,7 @@
     <div id="header">
         <div id="branding">
         {% block branding %}{% endblock %}
+        {%if not is_logout and not is_login%}{% block latest_update %}{% endblock %}{%endif%}
         </div>
         {% if user.is_active %}
         <div id="user-tools">

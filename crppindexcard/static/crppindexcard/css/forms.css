@@ -15,6 +15,11 @@
     width:100%;
 }
 
+/* miquel */
+.my_input input{
+    width:97%;
+}
+
 form .form-row p {
     padding-left: 0;
     font-size: 11px;

@@ -22,7 +22,7 @@ S002	Q020	S	Metropolitan population - floating	Floating (detail tourism, commute
 S002	Q021	S	Average population growth	Average within last 5-10 years
 S002	Q022	S	Projection of population growth	Estimation in the next 5-10 years
 S002	Q023	S	Mortality rates	Please specify gender and age rates in %
-S002	Q024	S	Life Expectancy	Please specify gender, in years
+S002	Q024	S	Life expectancy	Please specify gender, in years
 S002	Q025	S	Average age	Please specify gender, in years
 S002	Q026	S	Social distribution	Average of population with cultural, religious or other significant characteristics
 S002	Q027	S	Official  language(s)	Official language(s) (% of population speaking)

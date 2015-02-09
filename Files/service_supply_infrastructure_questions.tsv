@@ -1,0 +1,26 @@
+AVAILABLE NETWORK BASIC INFORMATION	Q00001	mapped network	% of the network reflected on cartography	CHAR
+AVAILABLE NETWORK BASIC INFORMATION	Q00002	characteristics of the network including age, type, design, maintenance	known characteristics of the network (% from total network)	CHAR
+AVAILABLE NETWORK BASIC INFORMATION	Q00003	critical points 	(Number). MoV: sectorial assessment	CHAR
+AVAILABLE NETWORK BASIC INFORMATION	Q00004	illegal connections 	number of illegal connections for 100.000 hab	CHAR
+ASSESSMENT	Q00005	Good state of the infrastructure	(%). MoV: sectorial assessment	CHAR
+ASSESSMENT	Q00006	Protected critical points 	(%). MoV: sectorial assessment	CHAR
+ANALYSIS OF DATA	Q00007	data updated regularly	monitoring in place	YES_NO
+ANALYSIS OF DATA	Q00008	relevant data shared with defined stakeholders	channels defined to exchange information with affected/dependant stakeholders. MoV: procedure	YES_NO
+PLANNING	Q00009	investment plan including relevant information	plan based in information other than for commercial purpose	YES_NO
+PLANNING	Q00010	investment plan including inputs from other stakeholders	plan including information from other stakeholders	YES_NO
+REDUNDANCY	Q00011	mesh network	percentage of gridded network 	CHAR
+REDUNDANCY	Q00012	spare capacity	difference between available capacity and consumption (%)	CHAR
+REDUNDANCY	Q00013	capacity of backup systems	(%)	CHAR
+RELIABILITY	Q00014	continuity of function/supply	minutes lost/client within one year	CHAR
+SELF REGULATION	Q00015	alert when system is disrupted	monitoring system in place	YES_NO
+SELF REGULATION	Q00016	coordinated with other stakeholders involved	established channels of communication	YES_NO
+DIVERSITY	Q00017	Multiple providers 	number of operators providing the service	CHAR
+DIVERSITY	Q00018	Multipurpose managers	Management operators with capacity to act in different sectors	CHAR
+EQUITY	Q00019	population access to service	percentage of population from total	CHAR
+EQUITY	Q00020	deserved homes	percentage of homes from total	CHAR
+EQUITY	Q00021	built area covered	area covered by service in km2	CHAR
+ENGAGEMENT	Q00022	social engagement	established channels to communicate with citizens/associations	YES_NO
+RESPONSE	Q00023	early warning system		YES_NO
+RESPONSE	Q00024	contingency plan		YES_NO
+COORDINATION AND PLANNING	Q00025	specific planning		YES_NO
+COORDINATION AND PLANNING	Q00026	included in other plans		YES_NO

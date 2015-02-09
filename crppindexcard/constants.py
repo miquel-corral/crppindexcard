@@ -44,10 +44,40 @@ OPERATOR_LABEL = 'Operator'
 COMPETENCES_LABEL = 'Competences of the local gov.'
 EC_ROLE_LABEL = 'Role in E/C Plans'
 
-COMPETENCES_EXPLANATION_1 = 'Define the owner/responsible for the infrastructure or service, the competences of your' \
+COMPETENCES_EXPLANATION_1 = 'Define the owner/responsible for the infrastructure or service, the competences of your ' \
     'local government and its role in Emergency/Contingency plans.'
-COMPETENCES_EXPLANATION_2 = 'More then one option can be selected. Add any comment or additional information ' \
+COMPETENCES_EXPLANATION_2 = 'More than one option can be selected. Add any comment or additional information ' \
     'you consider in the text boxes below the selection options.'
+
+CHOICES_YES_NO = (
+    ("---","---"),
+    ("YES","YES"),
+    ("NO","NO")
+)
+CHOICES_ENGAGEMENT= (
+    ("------","------"),
+    ("Committed","Committed"),
+    ("Partially Committed","Partially Committed"),
+    ("Not Committed","Not Committed") ,
+)
+
+YES_NO_TYPE = "YES_NO"
+CHAR_TYPE = "CHAR"
+INT_TYPE = "INT"
+ENGAGEMT_TYPE = "ENGAGEMT"
+
+STATEMENT="Statement"
+ANSWER="Answer"
+MOV="MoV"
+
+def get_statement_label():
+    return STATEMENT
+
+def get_answer_label():
+    return ANSWER
+
+def get_mov_label():
+    return MOV
 
 def get_recurrence_label():
     return RECURRENCE_LABEL

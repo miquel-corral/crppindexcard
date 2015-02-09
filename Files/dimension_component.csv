@@ -1,0 +1,25 @@
+Organizational,National
+Organizational,Regional
+Organizational,District
+Organizational,Municipal
+Organizational,Local
+Organizational,Community
+Spatial,State
+Spatial,Province
+Spatial,City
+Spatial,Neighbor
+Spatial,Block
+Spatial,Plot
+Physical,Housing
+Physical,Service Infrastructure
+Physical,Hard Infrastructure
+Physical,Transport
+Physical,Public Facilities
+Physical,Private Facilities
+Physical,Environment
+Functional,Planning
+Functional,Public Works
+Functional,Revenue Systems
+Functional,Management
+Functional,Services
+Functional,Social

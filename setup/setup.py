@@ -21,9 +21,9 @@ from django.contrib.auth.models import User
 from crppindexcard.models import IndexCard, Section, Question, Hazard, HazardCategory, HazardAssessmentMatrix, Service,\
     ServiceComponent, ServiceT1Question, ServiceT2Question, ServiceT3Question, IndexCardService, ServiceT5Question, \
     CompetenceQuestion, CompetenceComponent, CompetenceCategory, IndexCardCompetenceCategory, Ownership, Competence, \
-    RoleInECPlans, Operator
+    RoleInECPlans, Operator, Dimension, Component, System, Element, ResilienceCharacteristic, ResiliencePrinciple, \
+    ElementQuestionCharField, ServiceT4Question
 
-import crppindexcard.constants
 
 def load_users_file():
     """
@@ -252,6 +252,12 @@ def generate_services_questions():
                 service_question.component_1_label = service_component_list[0].name
                 service_question.component_2_label = service_component_list[1].name
                 service_question.component_3_label = service_component_list[2].name
+            if  service_component_list_count == 4:
+                service_question = ServiceT4Question()
+                service_question.component_1_label = service_component_list[0].name
+                service_question.component_2_label = service_component_list[1].name
+                service_question.component_3_label = service_component_list[2].name
+                service_question.component_4_label = service_component_list[3].name
             if  service_component_list_count == 5:
                 service_question = ServiceT5Question()
                 service_question.component_1_label = service_component_list[0].name
@@ -304,6 +310,140 @@ def load_file_one_field_entity(file_name, class_name):
         class_instance.save()
     print("load_file_one_field_entity. End....")
 
+
+def load_file_dimension_component():
+    print("load_file_dimension_component. Start....")
+    file_path = settings.BASE_DIR + "/files/" + "dimension_component.csv"
+    data_reader = csv.reader(open(file_path), delimiter=",", quotechar='"')
+    for row in data_reader:
+        dimension_name = row[0].strip()
+        component_name = row[1].strip()
+        print("Dimension-component line: " + dimension_name + " - " + component_name)
+        try:
+            dimension = Dimension.objects.get(code=dimension_name)
+        except:
+            dimension = Dimension()
+            dimension.code = dimension_name
+            dimension.save()
+        component = Component()
+        component.code = component_name
+        component.dimension = dimension
+        component.save()
+    print("load_file_dimension_component. End....")
+
+
+def load_file_component_system_element():
+    print("load_file_dimension_component. Start....")
+    file_path = settings.BASE_DIR + "/files/" + "component_system_element.csv"
+    data_reader = csv.reader(open(file_path), delimiter=",", quotechar='"')
+    for row in data_reader:
+        component_name = row[0].strip()
+        system_name = row[1].strip()
+        element_name = row[2].strip()
+        # look for component (must exist)
+        component = Component.objects.get(code=component_name)
+        try:
+            system = System.objects.get(code=system_name)
+        except:
+            system = System()
+            system.code = system_name
+            system.save()
+            print("Adding component: " + component.code + " to system: " + system_name)
+            system.components.add(component)
+            system.save()
+        try:
+            print("Searching element: " + element_name + ", " +  "component: " + component.code + " to system: " + system.code)
+            element = Element.objects.get(code=element_name,system=system,components=component)
+        except:
+            element = Element()
+            element.code = element_name
+            element.system = system
+            element.save()
+            element.components.add(component)
+            element.save()
+    print("load_file_dimension_component. End....")
+
+
+def load_file_resilience_principles():
+    print("load_file_resilience_principles. Start....")
+    file_path = settings.BASE_DIR + "/files/" + "resilience_principles.csv"
+    data_reader = csv.reader(open(file_path), delimiter=",", quotechar='"')
+    for row in data_reader:
+        characteristic_name = row[0].strip()
+        principle_name = row[1].strip()
+        try:
+            characteristic = ResilienceCharacteristic.objects.get(code=characteristic_name)
+        except:
+            characteristic = ResilienceCharacteristic()
+            characteristic.code = characteristic_name
+            characteristic.save()
+        principle = ResiliencePrinciple()
+        principle.code = principle_name
+        principle.resilience_characteristic = characteristic
+        principle.save()
+    print("load_file_resilience_principles. End....")
+
+
+def load_file_service_supply_infrastructure_question():
+    print("load_file_physical_functional_question. Start....")
+    file_path = settings.BASE_DIR + "/files/" + "service_supply_infrastructure_questions.tsv"
+    for index_card in IndexCard.objects.all():
+        for element in Element.objects.all():
+            data_reader = csv.reader(open(file_path), dialect='excel-tab')
+            print("element.name: " + element.code)
+            #for component in element.components.all():
+            #    print("component.code: " + component.code)
+            print("numelements in Service Infrastructures: " + str(element.components.filter(code='Service Infrastructure').count()))
+            if (element.components.filter(code='Service Infrastructure').count() > 0):
+
+                print("element.name inside if: " + element.code)
+                for row in data_reader:
+                    principle_name = row[0].strip()
+                    question_code = row[1].strip()
+                    question_statement = row[2].strip()
+                    question_explanation = row[3].strip()
+                    question_type = row[4].strip()
+                    # principle, must exist
+                    print("Processing row_: " + str(row))
+                    print("Question type: " + str(question_type))
+                    principle = ResiliencePrinciple.objects.get(code=principle_name)
+                    # new question
+                    element_question = ElementQuestionCharField(type=question_type)
+                    #if question_type == ENGAGEMT_TYPE:
+                    #    element_question.answer = CHOICES_ENGAGEMENT
+                    #if question_type == YES_NO_TYPE:
+                    #    element_question.answer = CHOICES_YES_NO
+                    #if question_type == CHAR_TYPE:
+                    #    element_question = ElementQuestionCharField()
+                    #if question_type == INT_TYPE:
+                    #    element_question = ElementQuestionInteger()
+                    element_question.type = question_type
+                    # save question. Will fail if not treatment type written
+                    element_question.code = question_code
+                    element_question.statement = question_statement
+                    element_question.explanation = question_explanation
+                    element_question.resilience_principle = principle
+                    element_question.index_card = index_card
+                    element_question.element = element
+                    element_question.save()
+
+    print("load_file_physical_functional_question. End....")
+
+"""
+def generate_element_questions():
+    print("generate_element_questions. Start....")
+    # for each element add question list of every type
+    for element in Element.objects.all().order_by('id'):
+        #for element_question in ElementQuestionInteger.objects.all().order_by('resilience_principle','code'):
+        #    element_question.elements.add(element)
+        for element_question in ElementQuestionCharField.objects.all().order_by('resilience_principle','code'):
+            element_question.elements.add(element)
+        #for element_question in ElementQuestionSelectYESNO.objects.all().order_by('resilience_principle','code'):
+        #    element_question.elements.add(element)
+        element_question.save()
+    print("generate_element_questions. End....")
+"""
+
 def test():
     print("test. Start....")
     for index_card in IndexCard.objects.all():
@@ -333,7 +473,6 @@ def test():
 
 
 if __name__ == "__main__":
-
     load_users_file()
     load_cities_file()
     load_sections_file()
@@ -350,5 +489,10 @@ if __name__ == "__main__":
     load_file_one_field_entity("ownership.csv", Operator)
     load_file_one_field_entity("competences.csv", Competence)
     load_file_one_field_entity("roles_in_ec_plan.csv", RoleInECPlans)
+    load_file_dimension_component()
+    load_file_component_system_element()
+    load_file_resilience_principles()
+    load_file_service_supply_infrastructure_question()
+
     #test()
 

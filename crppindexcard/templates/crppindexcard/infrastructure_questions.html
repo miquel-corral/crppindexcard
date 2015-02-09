@@ -1,0 +1,106 @@
+{% extends "crppindexcard/base_site.html" %}
+{% load i18n admin_static %}
+{% load set_context_var %}
+{% load get_context_var %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "crppindexcard/css/forms.css" %}"/>{% endblock %}
+
+{% block coltype %}colM{% endblock %}
+
+{% block bodyclass %}{{ assessment.name }} change-form{% endblock %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+
+
+<div class="breadcrumbs">
+    <a href="{% url 'index' %}">{{ index_card.city }}</a> &rsaquo;
+    <a href="{% url 'index' %}">Services Supply</a> &rsaquo;
+    {{element.system.code}} - {{element.code}}
+</div>
+{% endblock %}
+{% endif %}
+
+
+{% block content %}
+<div id="content-main">
+
+
+<div class="module">
+    <table style="width:100%">
+        <caption>
+            <div class="section">{{ index_card.city }} &rsaquo; Services Supply &rsaquo; {{element.system.code}} - {{element.code}}</div>
+            <div style="float:right;padding-right:18px;"></div>
+        </caption>
+    </table>
+</div>
+
+
+<form name="crppindexcardform" action="" method="post" id="{{ indexcard.username }}_form" onsubmit="enableDisabledSelects();return true;">{% csrf_token %}{% block form_top %}{% endblock %}
+<div>
+{{ formset.management_form }}
+{%comment%}
+<!-- to render errors div-->
+        {% if formset.errors %}
+        <div class="">
+        <p class="errornote">
+            <!-- num_errors calculat en view -->
+            {% if num_errors|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+
+            <!-- prints model errors, right style -->
+            {% for dict in formset.errors %}
+                {% for key, value in dict.items %}
+                    {% if key == '__all__' %}
+                    <li>{{ value }}</li>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </p>
+
+
+        </div>
+        {% endif %}
+{%endcomment%}
+<fieldset class="module aligned">
+<!--  to render formsetv -->
+
+    <table>
+        <tr>
+            <td width="20%" align="center"><span class="required"><label>{{constants.get_statement_label}}</label></span></td>
+            <td width="20%" align="center"><span class="required"><label>{{constants.get_answer_label}}</label></span></td>
+            <td width="30%" align="center"><span class="required"><label>{{constants.get_mov_label}}</label></span></td>
+            <td width="30%" align="center"><span class="required"><label>{{constants.get_additional_info_label}}</label></span></td>
+        </tr>
+
+    {% for form in formset %}
+
+            {% for field in form %}
+                {% if field.is_hidden or field.is_readonly%}
+                        {{ field }}
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td width="20%" align="left"><div><span class="required"><label>{{form.statement.value|capfirst}}{{form.statement.as_hidden}}</label></span><span class="helptext"><label>{{form.explanation.value|capfirst}}{{form.explanation.as_hidden}}</label></span></div></td>
+                <td width="20%"><div class="my_input">{{form.answer.errors}}{{form.answer}}</div></td>
+                <td width="30%"><div style="margin-right:2px;">{{form.mov.errors}}{{form.mov}}</div></td>
+                <td width="30%"><div style="margin-right:5px;">{{form.additional_information.errors}}{{form.additional_information}}</div></td>
+            </tr>
+
+    {% endfor %}
+
+    </table>
+
+</fieldset>
+</div> <!-- form div -->
+
+
+
+<div class="submit-row">
+    <input class="default" type="submit" name="_save" value="Save"></input>
+</div> <!-- submit row div -->
+
+</div> <!-- content.main -->
+{% endblock %}
+<script>
+
+</script>

@@ -1,0 +1,54 @@
+Service Infrastructure,Power Supply, High Voltage
+Service Infrastructure,Power Supply, Medium Voltage
+Service Infrastructure,Power Supply, Low Voltage
+Service Infrastructure,Power Supply,Alternative energies (specify)
+Service Infrastructure,Gas Supply, Transport Network
+Service Infrastructure,Gas Supply, Distribution Network
+Service Infrastructure,Water Supply, Transport Network
+Service Infrastructure,Water Supply, Distribution Network
+Service Infrastructure,IT, Land Lines
+Service Infrastructure,IT, Cell Lines
+Service Infrastructure,IT, Radio/TV
+Service Infrastructure,IT, Internet
+Service Infrastructure,Public Transport, Bus
+Service Infrastructure,Public Transport, Train
+Service Infrastructure,Public Transport, Metro
+Service Infrastructure,Public Transport, Tram
+Service Infrastructure,Public Transport, Others
+Service Infrastructure,Sanitation,Sewer system
+Service Infrastructure,Sanitation, Waste collection
+Service Infrastructure,Food supply, Food supply
+Service Infrastructure,Fuel/oil supply, Fuel/oil supply
+Service Infrastructure,Other Supplies, Other Supplies
+Hard Infrastructure,Public Transport,Railway Network
+Hard Infrastructure,Public Transport,Airport
+Hard Infrastructure,Public Transport,Harbour - port
+Hard Infrastructure,Public Transport,Highways
+Hard Infrastructure,Public Transport,Main roads
+Hard Infrastructure,Public Transport,Others (specify)
+Public Facilities,Housing,Private housing (dwellings)
+Public Facilities,Housing,Public housing
+Public Facilities,Health,Hospitals
+Public Facilities,Health,Health Centers
+Public Facilities,Sport,Sport facilities
+Public Facilities,Education,Schools
+Public Facilities,Education,Universities
+Public Facilities,Cultural,Cultural facilities
+Public Facilities,Others, Others
+Private Facilities,Industry,Industrial facilities
+Environment,Green Infrastructure,Forests
+Environment,Green Infrastructure,Parks
+Environment,Green Infrastructure,Others
+Environment,Blue Infrastructure,Rivers
+Environment,Blue Infrastructure,Lakes/ponds
+Environment,Blue Infrastructure,Others
+Environment,Others, Others
+Social,Police,National
+Social,Police,Local
+Social,Security,Security Forces
+Social,Emergencies,Firemen
+Social,Emergencies,Civil Defense
+Social,Children Care, Children Care
+Social,Women Care, Women Care
+Social,Senior Care, Senior Care
+Social,Others,Others
