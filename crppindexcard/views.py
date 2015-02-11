@@ -10,15 +10,17 @@ from django.forms.models import modelformset_factory
 from django import forms
 
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from crppindexcard.models import IndexCard, Question, Hazard, HazardAssessmentMatrix, ServiceT1Question, \
     ServiceT2Question, ServiceT3Question, ServiceT5Question, CompetenceQuestion, IndexCardCompetenceCategory, \
-    ElementQuestionCharField, Element, ServiceT4Question
+    ElementQuestionCharField, Element, ServiceT4Question, Component
 
 import crppindexcard.constants
 from constants import CHOICES_YES_NO, YES_NO_TYPE
 from crppindexcard.forms import MyForm
 
+@ensure_csrf_cookie
 def my_login(request):
     username = ''
     password = ''
@@ -49,11 +51,8 @@ def my_login(request):
             return TemplateResponse(request, 'crppindexcard/login.html', context)
     else:
         form = AuthenticationForm(request)
-#        current_site = None
         context = {'form': form,
                    'is_login':'is_login',
-#           'site': current_site,
-#            'site_name': current_site.name,
             }
         return TemplateResponse(request, 'crppindexcard/login.html', context)
 
@@ -63,7 +62,7 @@ def my_logout(request):
     context = RequestContext(request, {'is_logout': "logout"})
     return HttpResponse(template.render(context))
 
-
+@ensure_csrf_cookie
 @login_required
 def index(request):
     """
@@ -77,18 +76,16 @@ def index(request):
         index_card = IndexCard.objects.get(username=username)
     except:
         index_card = None
-    elements = []
-    #elements = Component.objects.get(code='Service Infrastructure').component_set
-    #elements.add(Component.objects.get(code='Hazard Infrastructure').component_set)
-    for element in Element.objects.all().order_by('system','id'):
-        if (element.components.filter(code='Service Infrastructure').count() > 0):
-            elements.append(element)
-
+    service_inf_elements = get_elements_by_component_name('Service Infrastructure')
+    hard_inf_elements = get_elements_by_component_name('Hard Infrastructure')
+    built_env_elements = get_elements_by_component_name('Built Environment')
     template = loader.get_template('crppindexcard/index.html')
     context = RequestContext(request, {
         'index_card': index_card,
         'username': username,
-        'elements': elements,
+        'service_inf_elements': service_inf_elements,
+        'hard_inf_elements':hard_inf_elements,
+        'built_env_elements':built_env_elements,
     })
     return HttpResponse(template.render(context))
 
@@ -113,7 +110,7 @@ def copyright(request):
     })
     return HttpResponse(template.render(context))
 
-
+@ensure_csrf_cookie
 @login_required
 def section_questions(request, index_card_id, section_id):
     """
@@ -122,12 +119,13 @@ def section_questions(request, index_card_id, section_id):
     :param request:
     :return:
     """
-    elements = get_service_infrastructure_elements()
+    service_inf_elements = get_elements_by_component_name('Service Infrastructure')
+    hard_inf_elements = get_elements_by_component_name('Hard Infrastructure')
     fields_to_show = \
         ('statement','answer_type', 'answer_short', 'answer_long', 'comments')
     read_only_fields = ('comments')
 
-    QuestionFormSet = modelformset_factory(Question, max_num=1)
+    QuestionFormSet = modelformset_factory(Question, max_num=1, exclude=[])
     index_card = IndexCard.objects.get(id=index_card_id)
     section = index_card.section_set.get(id = section_id)
 
@@ -137,7 +135,8 @@ def section_questions(request, index_card_id, section_id):
             formset.save()
             return render_to_response("crppindexcard/index.html",
                                       {'index_card': index_card,
-                                       "elements": elements}, context_instance=RequestContext(request))
+                                       "service_inf_elements": service_inf_elements,
+                                       'hard_inf_elements':hard_inf_elements}, context_instance=RequestContext(request))
         else:
             if format(len(formset.errors) > 0):
                 num_errors = len(formset.errors[0])
@@ -166,17 +165,18 @@ def hazard_questions(request, index_card_id, hazard_id):
     :param request:
     :return:
     """
-    QuestionFormSet = modelformset_factory(HazardAssessmentMatrix, max_num=1)
+    QuestionFormSet = modelformset_factory(HazardAssessmentMatrix, max_num=1, exclude=[])
     index_card = IndexCard.objects.get(id=index_card_id)
     hazard = index_card.hazards.get(id = hazard_id)
-    elements = get_service_infrastructure_elements()
-
+    service_inf_elements = get_elements_by_component_name('Service Infrastructure')
+    hard_inf_elements = get_elements_by_component_name('Hard Infrastructure')
     if request.method == 'POST':
         formset = QuestionFormSet(request.POST, request.FILES)
         if formset.is_valid():
             formset.save()
             return render_to_response("crppindexcard/index.html",
-                                      {'index_card': index_card, 'elements':elements})
+                                      {'index_card': index_card, 'service_inf_elements': service_inf_elements, \
+                                       'hard_inf_elements':hard_inf_elements}, context_instance=RequestContext(request))
         else:
             if format(len(formset.errors) > 0):
                 num_errors = len(formset.errors[0])
@@ -186,6 +186,7 @@ def hazard_questions(request, index_card_id, hazard_id):
 
     return render_to_response("crppindexcard/hazard_questions.html",{
                               "formset":formset, "index_card":index_card, "hazard":hazard, \
+                              'service_inf_elements':service_inf_elements, 'hard_inf_elements':hard_inf_elements,
                               "constants":crppindexcard.constants,}, \
                               context_instance=RequestContext(request))
 
@@ -222,7 +223,8 @@ def service_questions(request, index_card_id, hazard_id, index_card_service_id):
     #fields_to_show = \
     #    ('statement','answer_type', 'answer_short', 'answer_long', 'comments')
     #read_only_fields = ('comments')
-    elements = get_service_infrastructure_elements()
+    service_inf_elements = get_elements_by_component_name('Service Infrastructure')
+    hard_inf_elements = get_elements_by_component_name('Hard Infrastructure')
     index_card = IndexCard.objects.get(id=index_card_id)
     index_card_service = index_card.indexcardservice_set.get(id=index_card_service_id)
     hazard = Hazard.objects.get(id=hazard_id)
@@ -230,15 +232,15 @@ def service_questions(request, index_card_id, hazard_id, index_card_service_id):
     service_component_list_count = len(service_component_list)
 
     if service_component_list_count == 1:
-        QuestionFormSet = modelformset_factory(ServiceT1Question, max_num=1)
+        QuestionFormSet = modelformset_factory(ServiceT1Question, max_num=1, exclude=[])
     if service_component_list_count == 2:
-        QuestionFormSet = modelformset_factory(ServiceT2Question, max_num=1)
+        QuestionFormSet = modelformset_factory(ServiceT2Question, max_num=1, exclude=[])
     if service_component_list_count == 3:
-        QuestionFormSet = modelformset_factory(ServiceT3Question, max_num=1)
+        QuestionFormSet = modelformset_factory(ServiceT3Question, max_num=1, exclude=[])
     if service_component_list_count == 4:
-        QuestionFormSet = modelformset_factory(ServiceT4Question, max_num=1)
+        QuestionFormSet = modelformset_factory(ServiceT4Question, max_num=1, exclude=[])
     if service_component_list_count == 5:
-        QuestionFormSet = modelformset_factory(ServiceT5Question, max_num=1)
+        QuestionFormSet = modelformset_factory(ServiceT5Question, max_num=1, exclude=[])
 
     if request.method == 'POST':
         formset = QuestionFormSet(request.POST, request.FILES)
@@ -246,7 +248,8 @@ def service_questions(request, index_card_id, hazard_id, index_card_service_id):
             formset.save()
             return render_to_response("crppindexcard/services_list.html",
                                       {'index_card': index_card,
-                                       'hazard': hazard, 'elements':elements,})
+                                       'hazard': hazard, 'service_inf_elements':service_inf_elements,
+                                       'hard_inf_elements':hard_inf_elements}, context_instance=RequestContext(request))
         else:
             if format(len(formset.errors) > 0):
                 num_errors = len(formset.errors[0])
@@ -286,10 +289,11 @@ def competence_questions(request, index_card_id, index_card_competence_category_
     :param request:
     :return:
     """
-    elements = get_service_infrastructure_elements()
+    service_inf_elements = get_elements_by_component_name('Service Infrastructure')
+    hard_inf_elements = get_elements_by_component_name('Hard Infrastructure')
     fields_to_apply = ('owner') #,'operator','competences','role_in_ec_plan')
 
-    QuestionFormSet = modelformset_factory(CompetenceQuestion, max_num=1)
+    QuestionFormSet = modelformset_factory(CompetenceQuestion, max_num=1, exclude=[])
     index_card = IndexCard.objects.get(id=index_card_id)
     index_card_competence_category = IndexCardCompetenceCategory.objects.get(id=index_card_competence_category_id)
 
@@ -299,7 +303,8 @@ def competence_questions(request, index_card_id, index_card_competence_category_
         if formset.is_valid():
             formset.save()
             return render_to_response("crppindexcard/index.html",
-                                      {'index_card': index_card, 'elements':elements})
+                                      {'index_card': index_card, 'service_inf_elements': service_inf_elements, \
+                                       'hard_inf_elements':hard_inf_elements}, context_instance=RequestContext(request))
         else:
             if format(len(formset.errors) > 0):
                 num_errors = len(formset.errors[0])
@@ -309,18 +314,20 @@ def competence_questions(request, index_card_id, index_card_competence_category_
 
     return render_to_response("crppindexcard/competence_questions.html",
                               dict(formset=formset, index_card=index_card, constants=crppindexcard.constants, \
-                                   index_card_competence_category=index_card_competence_category), \
+                                   index_card_competence_category=index_card_competence_category,
+                                   service_inf_elements=service_inf_elements, hard_inf_elements=hard_inf_elements), \
                               context_instance=RequestContext(request))
 
 
 @login_required
-def infrastructure_questions(request, index_card_id, element_id):
+def element_questions(request, index_card_id, element_id, component_name):
     """
     View for the competence questions of the infrastructures of the index_card (city)
     :param request:
     :return:
     """
-    elements = get_service_infrastructure_elements()
+    service_inf_elements = get_elements_by_component_name('Service Infrastructure')
+    hard_inf_elements = get_elements_by_component_name('Hard Infrastructure')
     fields_to_show = ('statement','explanation','answer','mov','additional_information')
 
     QuestionFormSet = modelformset_factory(ElementQuestionCharField, max_num=1, form=MyForm)
@@ -332,7 +339,8 @@ def infrastructure_questions(request, index_card_id, element_id):
         if formset.is_valid():
             formset.save()
             return render_to_response("crppindexcard/index.html",
-                                      {'index_card': index_card, 'elements': elements})
+                                      {'index_card': index_card, 'service_inf_elements': service_inf_elements, \
+                                       'hard_inf_elements':hard_inf_elements}, context_instance=RequestContext(request))
         else:
             if format(len(formset.errors) > 0):
                 num_errors = len(formset.errors[0])
@@ -342,9 +350,9 @@ def infrastructure_questions(request, index_card_id, element_id):
         formset = QuestionFormSet(queryset = query_set)
         set_form_hidden_fields(formset, fields_to_show)
 
-    return render_to_response("crppindexcard/infrastructure_questions.html",
+    return render_to_response("crppindexcard/element_questions.html",
                               dict(formset=formset, index_card=index_card, element=element, \
-                              constants=crppindexcard.constants), \
+                              constants=crppindexcard.constants, component_name=component_name), \
                               context_instance=RequestContext(request))
 
 
@@ -359,7 +367,7 @@ def test(request):
         if formset.is_valid():
             formset.save()
             return render_to_response("crppindexcard/index.html",
-                                      {'index_card': ''})
+                                      {'index_card': ''}, context_instance=RequestContext(request))
         else:
             if format(len(formset.errors) > 0):
                 num_errors = len(formset.errors[0])
@@ -373,6 +381,10 @@ def test(request):
                               dict(formset=formset, item_list=item_list, constants=crppindexcard.constants),
                               context_instance=RequestContext(request))
 
+def csrf_error(request, reason=""):
+    template = loader.get_template('crppindexcard/csrf_error.html')
+    context = RequestContext(request, {'is_logout': "logout",'reason':reason})
+    return HttpResponse(template.render(context))
 
 
 def set_form_hidden_fields(formset, fields_to_show):
@@ -424,9 +436,13 @@ def set_form_country_select(formset):
                 # This works to change choices: form.fields[field].widget.attrs['choices'] = CHOICES_YES_NO
                 form.fields[field].widget = forms.Select(choices=CHOICES_YES_NO)
 
-def get_service_infrastructure_elements():
+def get_elements_by_component_name(component_name):
+
+    """
     elements = []
     for element in Element.objects.all().order_by('system','id'):
         if (element.components.filter(code='Service Infrastructure').count() > 0):
             elements.append(element)
     return elements
+    """
+    return Component.objects.get(code=component_name).element_set.all().order_by('id')

@@ -34,7 +34,7 @@ urlpatterns = patterns('',
     url(r'^competence_questions/(?P<index_card_id>\d+)/(?P<index_card_competence_category_id>\d+)/$', 'crppindexcard.views.competence_questions', name='competence_questions'),
 
     # url to page with questions for infrastructures related to services supply
-    url(r'^infrastructure_questions/(?P<index_card_id>\d+)/(?P<element_id>\d+)/$', 'crppindexcard.views.infrastructure_questions', name='infrastructure_questions'),
+    url(r'^element_questions/(?P<index_card_id>\d+)/(?P<element_id>\d+)/(?P<component_name>[^/]+)/$', 'crppindexcard.views.element_questions', name='element_questions'),
 
 
     #url test element questions

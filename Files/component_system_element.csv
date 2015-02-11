@@ -21,21 +21,27 @@ Service Infrastructure,Food supply, Food supply
 Service Infrastructure,Fuel/oil supply, Fuel/oil supply
 Service Infrastructure,Other Supplies, Other Supplies
 Hard Infrastructure,Public Transport,Railway Network
-Hard Infrastructure,Public Transport,Airport
-Hard Infrastructure,Public Transport,Harbour - port
-Hard Infrastructure,Public Transport,Highways
-Hard Infrastructure,Public Transport,Main roads
+Hard Infrastructure,Public Transport,Airport (civil)
+Hard Infrastructure,Public Transport,Harbour - port (civil)
+Hard Infrastructure,Public Transport,Highways (with access control)
+Hard Infrastructure,Public Transport,Main roads (free access)
+Hard Infrastructure,Public Transport,Tunnels
 Hard Infrastructure,Public Transport,Others (specify)
-Public Facilities,Housing,Private housing (dwellings)
-Public Facilities,Housing,Public housing
-Public Facilities,Health,Hospitals
-Public Facilities,Health,Health Centers
-Public Facilities,Sport,Sport facilities
-Public Facilities,Education,Schools
-Public Facilities,Education,Universities
-Public Facilities,Cultural,Cultural facilities
-Public Facilities,Others, Others
-Private Facilities,Industry,Industrial facilities
+Built Environment,Housing,Private housing (dwellings)
+Built Environment,Housing,Public housing
+Built Environment,Housing,Informal housing
+Built Environment,Health,Hospitals
+Built Environment,Health,Health Centers
+Built Environment,Sport,Sport facilities
+Built Environment,Sport,Cultural facilities
+Built Environment,Education,Schools
+Built Environment,Education,Universities
+Built Environment,Administration,Administration
+Built Environment,Religious,Religious
+Built Environment,Markets,Markets
+Built Environment,Security,Emergency Bases
+Built Environment,Industry,Industrial facilities
+Built Environment,Others, Others
 Environment,Green Infrastructure,Forests
 Environment,Green Infrastructure,Parks
 Environment,Green Infrastructure,Others

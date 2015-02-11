@@ -15,7 +15,7 @@
 
 <div class="breadcrumbs">
     <a href="{% url 'index' %}">{{ index_card.city }}</a> &rsaquo;
-    <a href="{% url 'index' %}">Services Supply</a> &rsaquo;
+    <a href="{% url 'index' %}">{{component_name}}</a> &rsaquo;
     {{element.system.code}} - {{element.code}}
 </div>
 {% endblock %}
@@ -28,8 +28,8 @@
 
 <div class="module">
     <table style="width:100%">
-        <caption>
-            <div class="section">{{ index_card.city }} &rsaquo; Services Supply &rsaquo; {{element.system.code}} - {{element.code}}</div>
+        <caption class="title_services_supply">
+            <div class="section">{{ index_card.city }} &rsaquo; {{component_name}} &rsaquo; {{element.system.code}} - {{element.code}}</div>
             <div style="float:right;padding-right:18px;"></div>
         </caption>
     </table>

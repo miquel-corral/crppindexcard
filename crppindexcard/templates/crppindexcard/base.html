@@ -64,7 +64,7 @@
         {% block branding %}{% endblock %}
         {%if not is_logout and not is_login%}{% block latest_update %}{% endblock %}{%endif%}
         </div>
-        {% if user.is_active %}
+        {% if user.is_active and not is_logout and not is_login%}
         <div id="user-tools">
             {% trans 'Welcome,' %}
             <strong>{% firstof user.get_short_name user.get_username %}</strong>.

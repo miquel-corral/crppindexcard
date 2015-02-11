@@ -1,0 +1,33 @@
+AVAILABLE NETWORK BASIC INFORMATION	Q00027	Mapped network	% of the network reflected on cartography	CHAR
+AVAILABLE NETWORK BASIC INFORMATION	Q00028	Characteristics of the network including age, type, design, maintenance	known characteristics of the network (% from total network length if applicable)	CHAR
+AVAILABLE NETWORK BASIC INFORMATION	Q00029	Critical points	(Number). MoV: sectorial assessment	CHAR
+ASSESSMENT	Q00030	Good state of the infrastructure	(%) MoV:sectorial assessment	CHAR
+ASSESSMENT	Q00031	Protected critical points	(%) MoV:sectorial assessment	CHAR
+ASSESSMENT	Q00032	Black points (operational)	point that stop the function (number)	CHAR
+ANALYSIS OF DATA	Q00033	data updated regularly (maintenance monitoring)	monitoring in place	YES_NO
+ANALYSIS OF DATA	Q00034	relevant data shared with defined stakeholders	channels defined to exchange information with affected/dependant stakeholders (MoV: procedure)	YES_NO
+PLANNING	Q00035	investment plan including relevant information	plan based in information other than for commercial purpose	YES_NO
+PLANNING	Q00036	investment plan including inputs from other stakeholders	plan including information from other stakeholders	YES_NO
+PLANNING	Q00037	budget dedicated to improvement 	investment other than maintenance or commercial actions (%)	CHAR
+REDUNDANCY	Q00038	mesh network	percentage of gridded network 	CHAR
+REDUNDANCY	Q00039	spare capacity	difference between available capacity and consumption (%)	CHAR
+REDUNDANCY	Q00040	capacity of backup systems	(%) 	CHAR
+REDUNDANCY	Q00041	black points	high recurrence of disruptions (%)	CHAR
+REDUNDANCY	Q00042	single points 	ex: number of single connection points 	CHAR
+REDUNDANCY	Q00043	recovery time	ratio: minutes of disruption - minutes of recovery	CHAR
+REDUNDANCY	Q00044	downstream dependencies	number of other infrastructures relying on service	CHAR
+REDUNDANCY	Q00045	upstream dependencies	number of other infrastructures you rely on	CHAR
+RELIABILITY	Q00046	continuity of function/supply	hours disruption/ month	CHAR
+SELF REGULATION	Q00047	alert when system is disrupted	monitoring system in place	YES_NO
+SELF REGULATION	Q00048	coordinated with other stakeholders involved	established channels of communication	YES_NO
+SELF REGULATION	Q00049	self maintenance	or rely on third parts	YES_NO
+DIVERSITY	Q00050	Single providers 	one operator providing service	YES_NO
+DIVERSITY	Q00051	Multipurpose managers	Management operators with capacity to act in different sectors	YES_NO
+EQUITY	Q00052	population access to service	percentage of population from total	CHAR
+EQUITY	Q00053	area covered	influence area in Km2	CHAR
+ENGAGEMENT	Q00054	social engagement	established channels to communicate with citizens/associations	YES_NO
+ENGAGEMENT	Q00055	number of jobs provided	direct jobs for locals	CHAR
+RESPONSE	Q00056	early warning system		YES_NO
+RESPONSE	Q00057	contingency plan		YES_NO
+COORDINATION AND PLANNING	Q00058	specific planning		YES_NO
+COORDINATION AND PLANNING	Q00059	included in other plans		YES_NO

@@ -13,10 +13,11 @@
 <div id="content-main">
 
 {% if index_card %}
-    <div class="module" style="float:left;width:23%;margin-right:20px;">
+    <div style="float:left;width:23%;margin-right:20px;"">
+    <div class="module bg_number number_indexcard">
         <table>
-        <caption>
-            <div class="section">City Index Card for:  {{ index_card.city }}</div>
+        <caption class="title_indexcard">
+            <div class="section">City Index Card</div>
             <div style="float:right;padding-right:18px;"></div>
         </caption>
         {% for section in index_card.section_set.all %}
@@ -32,10 +33,31 @@
         </table>
      </div>
 
-    <div class="module" style="float:left;margin-right:20px;width:23%;">
+
+    <div class="module bg_number number_competences">
         <table>
-        <caption>
-            <div class="section">Hazard Impact assessment for:  {{ index_card.city }}</div>
+        <caption class="title_competences">
+            <div class="section">Competences and Organization</div>
+            <div style="float:right;padding-right:18px;"></div>
+        </caption>
+        {% for index_card_competence_category in index_card.indexcardcompetencecategory_set.all %}
+            <tr class="section-{{ hazard.object_name|lower }}">
+                <th scope="row">
+                    <a href="{% url 'competence_questions' index_card_id=index_card.id index_card_competence_category_id=index_card_competence_category.id%}">{{index_card_competence_category.competence_category.name}}</a>
+                </th>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+         {% endfor %}
+        </table>
+     </div>
+    </div>
+
+    <div class="module bg_number number_impacts" style="float:left;margin-right:20px;width:23%;">
+        <table>
+        <caption class="title_impacts">
+            <div class="section">Hazard Impact assessment</div>
             <div style="float:right;padding-right:18px;"></div>
         </caption>
         {% for hazard in index_card.hazards.all %}
@@ -54,34 +76,18 @@
          {% endfor %}
         </table>
      </div>
-     <div class="module" style="float:left;margin-right:20px;width:23%;">
+
+
+     <div class="module bg_number number_services_supply" style="float:left;margin-right:20px;width:23%;">
         <table>
-        <caption>
-            <div class="section">Competences and Organization for:  {{ index_card.city }}</div>
+        <caption class="title_services_supply">
+            <div class="section">Services Supply</div>
             <div style="float:right;padding-right:18px;"></div>
         </caption>
-        {% for index_card_competence_category in index_card.indexcardcompetencecategory_set.all %}
-            <tr class="section-{{ hazard.object_name|lower }}">
-                <th scope="row">
-                    <a href="{% url 'competence_questions' index_card_id=index_card.id index_card_competence_category_id=index_card_competence_category.id%}">{{index_card_competence_category.competence_category.name}}</a>
-                </th>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-         {% endfor %}
-        </table>
-     </div>
-     <div class="module" style="float:left;margin-right:0px;width:23%;">
-        <table>
-        <caption>
-            <div class="section">Services Supply:  {{ index_card.city }}</div>
-            <div style="float:right;padding-right:18px;"></div>
-        </caption>
-        {% for element in elements %}
+        {% for element in service_inf_elements %}
             <tr class="section-{{ element.object_name|lower }}">
                 <th scope="row">
-                    <a href="{% url 'infrastructure_questions' index_card_id=index_card.id element_id=element.id%}">{{element.system.code}} - {{element.code}}</a>
+                    <a href="{% url 'element_questions' index_card_id=index_card.id element_id=element.id component_name='Services Supply'%}">{{element.system.code}} - {{element.code}}</a>
                 </th>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
@@ -90,6 +96,56 @@
          {% endfor %}
         </table>
      </div>
+
+     <div class="module bg_number number_services_supply" style="float:left;margin-right:20px;width:23%;">
+        <table>
+        <caption class="title_services_supply">
+            <div class="section">Hard Infrastructure</div>
+            <div style="float:right;padding-right:18px;"></div>
+        </caption>
+        {% for element in hard_inf_elements %}
+            <tr class="section-{{ element.object_name|lower }}">
+                <th scope="row">
+                    <a href="{% url 'element_questions' index_card_id=index_card.id element_id=element.id component_name='Hard Infrastructure' %}">{{element.code}}</a>
+                </th>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+         {% endfor %}
+        </table>
+     </div>
+    {%comment%}
+     <div class="module bg_number number_built_environment" style="float:left;margin-right:20px;width:23%;">
+        <table>
+        <caption class="title_built_environment">
+            <div class="section">Built Environment</div>
+            <div style="float:right;padding-right:18px;"></div>
+        </caption>
+        {% for element in built_env_elements %}
+            <tr class="section-{{ element.object_name|lower }}">
+                <th scope="row">
+                    <a href="{% url 'infrastructure_questions' index_card_id=index_card.id element_id=element.id%}">{{element.code}}</a>
+                </th>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+         {% endfor %}
+        </table>
+     </div>
+
+     <div class="module bg_number number_environment" style="float:left;margin-right:20px;width:23%;">
+        <table>
+        <caption class="title_environment">
+            <div class="section">Environment</div>
+            <div style="float:right;padding-right:18px;"></div>
+        </caption>
+
+        </table>
+     </div>
+     {%endcomment%}
+
     {%comment%}<div><a href="{% url 'test' %}">TEST LINK</a></div>{%endcomment%}
 {% else %}
     <p>{% trans "City Index Card not set for " %}{{ user.username }}</p>

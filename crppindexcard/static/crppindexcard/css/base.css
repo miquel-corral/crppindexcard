@@ -860,3 +860,55 @@ table#change-history tbody th {
     background: #eee url(../img/nav-bg.gif) bottom left repeat-x;
     color: #666;
 }
+
+/* miquel */
+div.bg_number {
+    background-repeat: no-repeat;
+    background-position:center center;
+}
+
+caption.title_indexcard {
+    background:#99CCFF;
+}
+div.number_indexcard {
+    background-image: url("/static/crppindexcard/img/1_99CCFF.jpg");
+}
+
+caption.title_competences {
+    background:#CC99FF;
+}
+div.number_competences {
+    background-image: url("/static/crppindexcard/img/2_CC99FF.jpg");
+}
+
+caption.title_impacts {
+    background:#FF6666;
+}
+div.number_impacts {
+    background-image: url("/static/crppindexcard/img/3_FF6666.jpg");
+}
+
+caption.title_services_supply {
+    background:#FFCC99;
+}
+div.number_services_supply {
+    background-image: url("/static/crppindexcard/img/4_FFCC99.jpg");
+}
+
+caption.title_built_environment {
+    background:#E0E0E0;
+}
+div.number_built_environment {
+    background-image: url("/static/crppindexcard/img/5_E0E0E0.jpg");
+}
+
+
+caption.title_environment {
+    background:#CCFF99;
+}
+div.number_environment {
+    background-image: url("/static/crppindexcard/img/6_CCFF99.jpg");
+}
+
+
+

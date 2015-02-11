@@ -1,0 +1,25 @@
+{% extends "crppindexcard/base_site.html" %}
+{% load i18n admin_static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "crppindexcard/css/login.css" %}" />{% endblock %}
+
+{% block bodyclass %}{{ block.super }} login{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+   <div id="content" class="colM" style="width:100%;">
+        <h1>Potential security navigation error</h1>
+        <p>It looks like you have tried to exit the application.</p>
+        <p>Please logout properly: <a href="/logout/">Log out</a></p>
+        <p>Or just <a href="/index/">Enter again</a></p>
+        <br class="clear">
+        <div id="footer" style="padding:0px;"><h4><a href="{% url 'copyright' %}">Copyright © 2015</a>, City Resilience Profiling Programme</h4></div>
+    </div>
+    <!-- END Content -->
+</div>
+{% endblock %}

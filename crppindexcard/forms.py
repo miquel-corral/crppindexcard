@@ -22,6 +22,7 @@ class MyForm(forms.ModelForm):
 
     class Meta:
         model = ElementQuestionCharField
+        exclude = []
 
 
     def __init__(self, *args, **kwargs):
