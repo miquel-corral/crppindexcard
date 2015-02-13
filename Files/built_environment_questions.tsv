@@ -1,0 +1,27 @@
+AVAILABLE NETWORK BASIC INFORMATION	Q00060	built in hazard prone areas	% buildings in exposed areas	CHAR
+AVAILABLE NETWORK BASIC INFORMATION	Q00061	Typology: traditional	% of typologies classified by structural behaviour (front faced risks)	CHAR
+AVAILABLE NETWORK BASIC INFORMATION	Q00062	Typology: building codes "safe" from main hazards	(%)	CHAR
+AVAILABLE NETWORK BASIC INFORMATION	Q00063	Typology: others not resisting main hazards	(%)	CHAR
+AVAILABLE NETWORK BASIC INFORMATION	Q00064	critical buildings	number of critical buildings	CHAR
+AVAILABLE NETWORK BASIC INFORMATION	Q00065	illegal settlements 	% illegal settlement within the municipal area	CHAR
+ASSESSMENT	Q00066	State of buildings 	Percentage of buildings with information available	CHAR
+ANALYSIS OF DATA	Q00067	Cadaster/register	access to land tenure information (%)	CHAR
+ANALYSIS OF DATA	Q00068	urban growth control system	defined procedure to monitor urban growing	YES_NO
+PLANNING	Q00069	urban planning availability	general plan available	YES_NO
+PLANNING	Q00070	policies/permit system 	capacity of control from institutions	YES_NO
+PLANNING	Q00071	cost of exploitation	% of budget availability dedicated to maintenance& operation	CHAR
+PLANNING	Q00072	budget dedicated to improvement 	investment other than maintenance or commercial actions (% of total budget)	CHAR
+REDUNDANCY	Q00073	spare capacity	available land (% of area of the city)	CHAR
+REDUNDANCY	Q00074	empty housing	% of built environment	CHAR
+RELIABILITY	Q00075	informal settlements	% area of the city	CHAR
+SELF REGULATION	Q00076	alert when system is disrupted	monitoring system in place	YES_NO
+SELF REGULATION	Q00077	coordinated with other stakeholders involved	established channels of communication	YES_NO
+DIVERSITY	Q00078	Multipurpose buildings	number of buildings capable of admit different uses	CHAR
+EQUITY	Q00079	housing deserved (% at less than 5km)	(% at less than 5km)	CHAR
+EQUITY	Q00080	ratio of users	number of inhabitants 	CHAR
+EQUITY	Q00081	built area covered	area covered by service in Km2	CHAR
+ENGAGEMENT	Q00082	social engagement	established channels to communicate with citizens/associations	YES_NO
+RESPONSE	Q00083	early warning system		YES_NO
+RESPONSE	Q00084	contingency plan		YES_NO
+COORDINATION AND PLANNING	Q00085	specific planning		YES_NO
+COORDINATION AND PLANNING	Q00086	included in other plans		YES_NO

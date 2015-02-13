@@ -121,6 +121,7 @@ def section_questions(request, index_card_id, section_id):
     """
     service_inf_elements = get_elements_by_component_name('Service Infrastructure')
     hard_inf_elements = get_elements_by_component_name('Hard Infrastructure')
+    built_env_elements = get_elements_by_component_name('Built Environment')
     fields_to_show = \
         ('statement','answer_type', 'answer_short', 'answer_long', 'comments')
     read_only_fields = ('comments')
@@ -136,7 +137,8 @@ def section_questions(request, index_card_id, section_id):
             return render_to_response("crppindexcard/index.html",
                                       {'index_card': index_card,
                                        "service_inf_elements": service_inf_elements,
-                                       'hard_inf_elements':hard_inf_elements}, context_instance=RequestContext(request))
+                                       'hard_inf_elements':hard_inf_elements,'built_env_elements':built_env_elements},\
+                                      context_instance=RequestContext(request))
         else:
             if format(len(formset.errors) > 0):
                 num_errors = len(formset.errors[0])
@@ -170,13 +172,15 @@ def hazard_questions(request, index_card_id, hazard_id):
     hazard = index_card.hazards.get(id = hazard_id)
     service_inf_elements = get_elements_by_component_name('Service Infrastructure')
     hard_inf_elements = get_elements_by_component_name('Hard Infrastructure')
+    built_env_elements = get_elements_by_component_name('Built Environment')
     if request.method == 'POST':
         formset = QuestionFormSet(request.POST, request.FILES)
         if formset.is_valid():
             formset.save()
             return render_to_response("crppindexcard/index.html",
                                       {'index_card': index_card, 'service_inf_elements': service_inf_elements, \
-                                       'hard_inf_elements':hard_inf_elements}, context_instance=RequestContext(request))
+                                       'hard_inf_elements':hard_inf_elements,'built_env_elements':built_env_elements},\
+                                      context_instance=RequestContext(request))
         else:
             if format(len(formset.errors) > 0):
                 num_errors = len(formset.errors[0])
@@ -220,11 +224,9 @@ def service_questions(request, index_card_id, hazard_id, index_card_service_id):
     :param request:
     :return:
     """
-    #fields_to_show = \
-    #    ('statement','answer_type', 'answer_short', 'answer_long', 'comments')
-    #read_only_fields = ('comments')
     service_inf_elements = get_elements_by_component_name('Service Infrastructure')
     hard_inf_elements = get_elements_by_component_name('Hard Infrastructure')
+    built_env_elements = get_elements_by_component_name('Built Environment')
     index_card = IndexCard.objects.get(id=index_card_id)
     index_card_service = index_card.indexcardservice_set.get(id=index_card_service_id)
     hazard = Hazard.objects.get(id=hazard_id)
@@ -249,12 +251,11 @@ def service_questions(request, index_card_id, hazard_id, index_card_service_id):
             return render_to_response("crppindexcard/services_list.html",
                                       {'index_card': index_card,
                                        'hazard': hazard, 'service_inf_elements':service_inf_elements,
-                                       'hard_inf_elements':hard_inf_elements}, context_instance=RequestContext(request))
+                                       'hard_inf_elements':hard_inf_elements, 'built_env_elements':built_env_elements},\
+                                      context_instance=RequestContext(request))
         else:
             if format(len(formset.errors) > 0):
                 num_errors = len(formset.errors[0])
-        #set_form_hidden_fields(formset, fields_to_show)
-        #set_form_readonly_fields(formset, read_only_fields)
     else:
         if service_component_list_count == 1:
             query_set = ServiceT1Question.objects.filter(index_card_service_id=index_card_service_id)
@@ -291,6 +292,7 @@ def competence_questions(request, index_card_id, index_card_competence_category_
     """
     service_inf_elements = get_elements_by_component_name('Service Infrastructure')
     hard_inf_elements = get_elements_by_component_name('Hard Infrastructure')
+    built_env_elements = get_elements_by_component_name('Built Environment')
     fields_to_apply = ('owner') #,'operator','competences','role_in_ec_plan')
 
     QuestionFormSet = modelformset_factory(CompetenceQuestion, max_num=1, exclude=[])
@@ -304,7 +306,8 @@ def competence_questions(request, index_card_id, index_card_competence_category_
             formset.save()
             return render_to_response("crppindexcard/index.html",
                                       {'index_card': index_card, 'service_inf_elements': service_inf_elements, \
-                                       'hard_inf_elements':hard_inf_elements}, context_instance=RequestContext(request))
+                                       'hard_inf_elements':hard_inf_elements, 'built_env_elements':built_env_elements},\
+                                      context_instance=RequestContext(request))
         else:
             if format(len(formset.errors) > 0):
                 num_errors = len(formset.errors[0])
@@ -328,6 +331,7 @@ def element_questions(request, index_card_id, element_id, component_name):
     """
     service_inf_elements = get_elements_by_component_name('Service Infrastructure')
     hard_inf_elements = get_elements_by_component_name('Hard Infrastructure')
+    built_env_elements = get_elements_by_component_name('Built Environment')
     fields_to_show = ('statement','explanation','answer','mov','additional_information')
 
     QuestionFormSet = modelformset_factory(ElementQuestionCharField, max_num=1, form=MyForm)
@@ -340,7 +344,8 @@ def element_questions(request, index_card_id, element_id, component_name):
             formset.save()
             return render_to_response("crppindexcard/index.html",
                                       {'index_card': index_card, 'service_inf_elements': service_inf_elements, \
-                                       'hard_inf_elements':hard_inf_elements}, context_instance=RequestContext(request))
+                                       'hard_inf_elements':hard_inf_elements, 'built_env_elements': built_env_elements}\
+                                      , context_instance=RequestContext(request))
         else:
             if format(len(formset.errors) > 0):
                 num_errors = len(formset.errors[0])

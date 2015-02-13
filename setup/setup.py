@@ -402,30 +402,21 @@ def load_file_component_elements_questions(file_name, component_name):
             print("element.name: " + element.code)
             #for component in element.components.all():
             #    print("component.code: " + component.code)
-            print("numelements in Service Infrastructures: " + str(element.components.filter(code=component_name).count()))
+            print("numelements in " + component_name + ": " + str(element.components.filter(code=component_name).count()))
             if (element.components.filter(code=component_name).count() > 0):
-                if(element.elementquestioncharfield_set.count()==0):
-                    print("element.name inside if: " + element.code)
-                    for row in data_reader:
-                        principle_name = row[0].strip()
-                        question_code = row[1].strip()
-                        question_statement = row[2].strip()
-                        question_explanation = row[3].strip()
-                        question_type = row[4].strip()
-                        # principle, must exist
-                        print("Processing row_: " + str(row))
-                        print("Question type: " + str(question_type))
-                        principle = ResiliencePrinciple.objects.get(code=principle_name)
+                #if(element.elementquestioncharfield_set.count()==0):
+                for row in data_reader:
+                    principle_name = row[0].strip()
+                    question_code = row[1].strip()
+                    question_statement = row[2].strip()
+                    question_explanation = row[3].strip()
+                    question_type = row[4].strip()
+                    # principle, must exist
+                    print("Processing row_: " + str(row))
+                    principle = ResiliencePrinciple.objects.get(code=principle_name)
+                    if ElementQuestionCharField.objects.filter(code=question_code, index_card=index_card, element=element).count() == 0:
                         # new question
                         element_question = ElementQuestionCharField(type=question_type)
-                        #if question_type == ENGAGEMT_TYPE:
-                        #    element_question.answer = CHOICES_ENGAGEMENT
-                        #if question_type == YES_NO_TYPE:
-                        #    element_question.answer = CHOICES_YES_NO
-                        #if question_type == CHAR_TYPE:
-                        #    element_question = ElementQuestionCharField()
-                        #if question_type == INT_TYPE:
-                        #    element_question = ElementQuestionInteger()
                         element_question.type = question_type
                         # save question. Will fail if not treatment type written
                         element_question.code = question_code
@@ -435,6 +426,8 @@ def load_file_component_elements_questions(file_name, component_name):
                         element_question.index_card = index_card
                         element_question.element = element
                         element_question.save()
+                    else:
+                        print("Do not repeat question: " + question_code + ", element: " + element.code + ", indexcard: " + index_card.username)
 
     print("load_file_physical_functional_question. End....")
 
@@ -505,6 +498,7 @@ if __name__ == "__main__":
     #load_file_resilience_principles()
     load_file_component_elements_questions('service_supply_infrastructure_questions.tsv','Service Infrastructure')
     load_file_component_elements_questions('hard_infrastructure_questions.tsv','Hard Infrastructure')
+    load_file_component_elements_questions('built_environment_questions.tsv','Built Environment')
 
     #test()
 
