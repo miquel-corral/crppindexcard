@@ -5,9 +5,10 @@ from django.template import RequestContext, loader
 from django.shortcuts import redirect, render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.template.response import TemplateResponse
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.forms.models import modelformset_factory
 from django import forms
+from django.contrib.auth.models import User
 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -56,11 +57,39 @@ def my_login(request):
             }
         return TemplateResponse(request, 'crppindexcard/login.html', context)
 
+@ensure_csrf_cookie
 def my_logout(request):
     logout(request)
     template = loader.get_template('crppindexcard/logout.html')
     context = RequestContext(request, {'is_logout': "logout"})
     return HttpResponse(template.render(context))
+
+@ensure_csrf_cookie
+def my_change_password(request):
+
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            # change password
+            #raise Exception("EL USUARIO: " + request.user.username)
+            #raise Exception("EL pwd: " + str(request.POST['new_password1']).strip())
+            u = User.objects.get(username=request.user.username)
+            u.set_password(str(request.POST['new_password1']).strip())
+            u.save()
+            # logout
+            logout(request)
+            # return to index page
+            return redirect('/index/')
+        else:
+            context = {'form': form, 'is_login':'is_login'}
+            return TemplateResponse(request, 'crppindexcard/change_password.html', context)
+    else:
+        form = PasswordChangeForm(request)
+        context = {'form': form,
+                   'is_login':'is_login',
+            }
+        return TemplateResponse(request, 'crppindexcard/change_password.html', context)
+
 
 @ensure_csrf_cookie
 @login_required

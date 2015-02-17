@@ -3,11 +3,22 @@ from django.contrib import admin
 
 
 urlpatterns = patterns('',
+
+    url(r'^accounts/password_change/$',
+        'django.contrib.auth.views.password_change',
+        {'post_change_redirect' : '/accounts/password_change/done/'},
+        name="password_change"),
+    (r'^accounts/password_change/done/$',
+        'django.contrib.auth.views.password_change_done'),
+
     # url to form login
     url(r'^accounts/login/$', 'crppindexcard.views.my_login', name="my_login"),
 
     # url to logout page
     url(r'^logout/$', 'crppindexcard.views.my_logout', name='logout'),
+
+    # url to change password
+    url(r'^accounts/change_password/$', 'crppindexcard.views.my_change_password', name='my_change_password'),
 
     # base url
     url(r'^$', 'crppindexcard.views.index', name='index'),

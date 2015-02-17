@@ -39,10 +39,6 @@
 <script type="text/javascript"
     src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
 
-<!--
-<script type="text/javascript"
-    src="{% static 'crppindexcard/js/crppindexcard.js' %}"></script>
-    !-->
 
 {{ form.media }}
 {% endblock %}
@@ -67,8 +63,9 @@
         {% if user.is_active and not is_logout and not is_login%}
         <div id="user-tools">
             {% trans 'Welcome,' %}
-            <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+            <strong>{% firstof user.get_short_name user.get_username %}</strong>.&nbsp;
             {% block userlinks %}
+                <a href="{% url 'my_change_password' %}">Change password</a>&nbsp;
                 <a href="{% url 'logout' %}">{% trans 'Log out' %}</a>
             {% endblock %}
         </div>

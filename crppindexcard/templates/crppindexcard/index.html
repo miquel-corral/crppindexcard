@@ -146,7 +146,8 @@
      </div>
      {%endcomment%}
 
-    {%comment%}<div><a href="{% url 'test' %}">TEST LINK</a></div>{%endcomment%}
+    {%comment%}<div><a href="{% url 'test' %}">TEST LINK</a></div>
+    {%endcomment%}
 {% else %}
     <p>{% trans "City Index Card not set for " %}{{ user.username }}</p>
 {% endif %}
